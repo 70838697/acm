@@ -21,6 +21,14 @@
 \usepackage{picins}
 \usepackage{subfigure}
 
+\usepackage{color}
+\usepackage{listings}
+\lstset{language=C++,
+  basicstyle=\ttfamily,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green},
+  stringstyle=\color{red}}
+
 
 \begin{CJK*}{GBK}{song}\end{CJK*}
 
@@ -32,6 +40,7 @@
 \date{}
 
 \begin{document}
+
 \begin{CJK*}{GBK}{song}
 
 \maketitle
@@ -95,12 +104,14 @@
 \SetChptTtl{9mm}
 
 \input{ch2/ch2.tex}%第二章
-%\input{Ch3.tex}%第三章
+\SetChptTtl{9mm}
+\input{ch3/ch3.tex}%第三章
 %\input{Ch4.tex}%第四章
 %\input{Ch5.tex}%第五章
 %\input{Ch6.tex}%第六章
 %\input{Ch7.tex}%第七章
 %\input{Ch8.tex}%第八章
+\input{source/source.tex}%第二章
 
 
 \begin{thebibliography}{9}

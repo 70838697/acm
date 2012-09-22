@@ -1,0 +1,1 @@
+template <class T> T t_max (T a, T b) {    return (a>b?a:b);}

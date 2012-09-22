@@ -1,0 +1,137 @@
+
+%----------------------------------------------------------------------------------------
+
+\chapter{递推方程和母函数}
+\section{递归方程和矩阵幂}
+任何一个递归方程 $F\left(n\right)=a_1F\left(n-1\right)+a_2F\left(n-2\right)+...+a_kF\left(n-k\right)$,都可以转化为矩阵乘法:
+$$\begin{array}{ccc}
+\left(\begin{array}{c}
+  F(n) \\
+  F(n-1) \\
+  F(n-2) \\
+  \vdots \\
+  F(n-k+2) \\
+  F(n-k+1) 
+\end{array}\right)
+&=&
+\left(
+              \begin{array}{cccccc}
+                a_1    & a_2    & \cdots & a_{k-2} & a_{k-1} & a_k \\
+                1      & 0      & \cdots & 0       & 0       & 0\\
+                0      & 1      & \cdots & 0       & 0       & 0\\
+                \vdots & \vdots & \ddots & \vdots  & 0       & 0\\
+                0      & 0      & \cdots &1        & 0       & 0 \\
+                0      & 0      & \cdots &0        & 1       & 0 \\
+              \end{array}
+            \right)
+\left(\begin{array}{c}
+  F(n-1) \\
+  F(n-2) \\
+  F(n-3) \\
+  \vdots \\
+  F(n-k+1)\\
+  F(n-k)
+\end{array}\right) \\
+&=&
+\left(
+              \begin{array}{cccccc}
+                a_1    & a_2    & \cdots & a_{k-2} & a_{k-1} & a_k \\
+                1      & 0      & \cdots & 0       & 0       & 0\\
+                0      & 1      & \cdots & 0       & 0       & 0\\
+                \vdots & \vdots & \ddots & \vdots  & 0       & 0\\
+                0      & 0      & \cdots &1        & 0       & 0 \\
+                0      & 0      & \cdots &0        & 1       & 0 \\
+              \end{array}
+            \right)^2
+\left(\begin{array}{c}
+  F(n-2) \\
+  F(n-3) \\
+  F(n-4) \\
+  \vdots \\
+  F(n-k)\\
+  F(n-k-1)
+\end{array}\right) \\
+&=&\cdots\\
+&=&
+\left(
+              \begin{array}{cccccc}
+                a_1    & a_2    & \cdots & a_{k-2} & a_{k-1} & a_k \\
+                1      & 0      & \cdots & 0       & 0       & 0\\
+                0      & 1      & \cdots & 0       & 0       & 0\\
+                \vdots & \vdots & \ddots & \vdots  & 0       & 0\\
+                0      & 0      & \cdots &1        & 0       & 0 \\
+                0      & 0      & \cdots &0        & 1       & 0 \\
+              \end{array}
+            \right)^{n-k}
+\left(\begin{array}{c}
+  F(k) \\
+  F(k-1) \\
+  F(k-2) \\
+  \vdots \\
+  F(2)\\
+  F(1)
+\end{array}\right) 
+
+\end{array}
+$$
+设
+$$
+A=\left(
+              \begin{array}{cccccc}
+                a_1    & a_2    & \cdots & a_{k-2} & a_{k-1} & a_k \\
+                1      & 0      & \cdots & 0       & 0       & 0\\
+                0      & 1      & \cdots & 0       & 0       & 0\\
+                \vdots & \vdots & \ddots & \vdots  & 0       & 0\\
+                0      & 0      & \cdots &1        & 0       & 0 \\
+                0      & 0      & \cdots &0        & 1       & 0 \\
+              \end{array}
+            \right)
+$$
+这个矩阵$A$的第一行是递推方程的各项系数，第二行开始的左下角$(n-1)*(n-1)$个元素，实际上组成一个$n-1$维单位矩阵。并且只要$a_k\neq 0$,$A$是可逆矩阵。
+
+从上面的推导过程，我们看出，
+$$\left(\begin{array}{c}
+  F(n) \\
+  F(n-1) \\
+  \vdots \\
+  F(n-k+1)
+\end{array}\right)
+=A^{n-k}
+\left(\begin{array}{c}
+  F(k) \\
+  F(k-1) \\
+  \vdots \\
+  F(1)
+\end{array}\right)
+$$因此，求$F(n)$，可以利用矩阵的整数次幂求解，最终再乘上向量。但是实际上在求$A^n\mathbf{x}$时,不是先乘出来$A^n$再和$\mathbf{x}$相乘得到结果,而是边算边乘，
+如计算$A^{15}\mathbf{x}$,我们采用$A^8\left(A^4\left(A^2\left(A\mathbf{x}\right)\right)\right)$计算，而不是采用$\left(A^8\left(A^4\left(A^2A\right)\right)\right)\mathbf{x}$。这样可以减少运算次数。
+
+斐波纳契数列(Fibonacci Sequence)，又称黄金分割数列，指的是这样一个数列：1,1,2,3,5,8,13,21,$\cdots$.在数学上，斐波纳契数列以如下被以递归的方法定义：$F_0=0,F_1=1,F_n=F_{n-1}+F_{n-2}.$ $(n>=2,n\in N)$.不难推导得出：
+$$\left(\begin{array}{c}
+  F_n \\
+  F_{n-1}
+\end{array}\right)
+=\left(
+   \begin{array}{cc}
+     1 & 1 \\
+     1 & 0 \\
+   \end{array}
+ \right)
+^{n-1}
+\left(\begin{array}{c}
+  1 \\
+  1
+\end{array}\right)
+$$
+
+\section{利用相似变换和矩阵特征值求矩阵幂}
+
+\section{母函数的实质}
+
+\section{整数矩阵幂求模时的周期性}
+
+\section{矩阵幂的求和}
+
+\newpage
+
+%-----------------------------------------------------------------------------------------

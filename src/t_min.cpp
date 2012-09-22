@@ -1,0 +1,1 @@
+template <class T> T t_min (T a, T b) {    return (a<b?a:b);}
