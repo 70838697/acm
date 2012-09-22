@@ -13,8 +13,8 @@
 #    	immediate help:   type "help"  (plot window: hit 'h')
 # set terminal wxt 0
 # set output
-set terminal postscript eps enhanced color font 'Helvetica,10'
-set output 'fib.eps'
+set terminal epslatex 
+set output 'fib.tex'
 set xlabel 'n'
 set xtics out #是坐标的刻度朝外
 set ytics out
@@ -23,6 +23,6 @@ Sqrt(x)=Power(x,0.5)
 GNUTERM = "wxt"
 GPFUN_Power = "Power(x,y)=x**y"
 GPFUN_Sqrt = "Sqrt(x)=Power(x,0.5)"
-plot 'Z:\doing\acm\acm\figure\fib\fib.txt' title 'Fib(n)' , (((1+Sqrt(5))*0.5)**x)/Sqrt(5) title '(((1+\qrt(5))*0.5)^x)/\sqrt(5)'
+plot 'Z:\doing\acm\acm\figure\fib\fib.txt' title 'Fib(n)' , (((1+Sqrt(5))*0.5)**x)/Sqrt(5) title '$(((1+\sqrt{5})*0.5)^n)/\sqrt{5}$'
 set output
 #    EOF
