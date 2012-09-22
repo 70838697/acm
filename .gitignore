@@ -1,0 +1,10 @@
+
+*.bak
+*.toc
+*.aux
+*.dvi
+*.log
+*.gz
+*.bbl
+*.blg
+/acm.pdf
