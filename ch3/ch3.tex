@@ -349,21 +349,94 @@ $g(x)=(b_1n^m+b_2n^{m-1}+\cdots+b_m)a^n$,则如果$a$是特征方程的$r,r\ge0$重根,
 则特解$f(n)=(E_1n^m+E_2n^{m-1}+\cdots+E_m)n^ra^n$,$E_i,i=1,2,\cdots,m$为待定系数。
 \subsubsection{直接递推求解}
 对于非以上情形，一般采取猜测，或者直接递推求解。
-如$F(n)=F(n-1)n,F(0)$，直接可以递推得出它是$n!$.
+如$F(n)=F(n-1)n,F(0)=1$，直接可以递推得出它是$n!$.
 
 \section{整数矩阵幂求模时的周期性}
 如果$\mathbf{A}$为$k*k$的矩阵，它的每个元素都是正整数（不是的话，为负的项可以变为正数），且结果要对某个整数$m$求模，那么
-$\mathbf{A},\mathbf{A}^2,\mathbf{A}^3,\cdots$最多只有$m^{k*k}$种，因此必存在$1\le i<j\le m^{k*k},A^i=A^j $,也就是说存在循环节，当然，也可能
+$\mathbf{A},\mathbf{A}^2,\mathbf{A}^3,\cdots$最多只有$m^{k*k}$种，因此必存在$1\le i<j\le m^{k*k},\mathbf{A}^i=\mathbf{A}^j $,也就是说存在循环节，当然，也可能
 $i\neq 1$,也就是说循环的起点并不是$A^1$.这个循环节可以暴力求出的。
 
 \section{矩阵幂级数}
 有时候我们需要求矩阵的幂级数，
 $\mathbf{S}_n = \mathbf{I} + \mathbf{A} + \mathbf{A}^2 + \mathbf{A}^3 + \cdots + \mathbf{A}^n$
-此时我们采用2分的思想,可递归求解：
+此时我们采用二分的思想,可递归求解：
 $$\mathbf{S}_{2n}=\mathbf{S}_n(\mathbf{I}+\mathbf{A}^n)$$
 $$\mathbf{S}_{2n+1}=\mathbf{I}+\mathbf{S}_n(\mathbf{A}+\mathbf{A}^{n+1})$$
 
 在计算幂级数时最好缓存$A^1,A^2,A^4,A^8,\cdots,A^{2^{\lfloor\lg_2(n)\rfloor}}$,避免重复计算。
+
+\section{斐波纳契数列相关}
+\subsection{广义斐波纳契数列的通项公式}
+%参考自http://blog.csdn.net/justme0/article/details/7404310
+$F(0)=c_0,F(1)=c_1,F(n)=aF(n-1)+bF(n-2)$
+其特征方程为
+$$\lambda^2-a\lambda-b=0$$
+特征值为$\lambda_1=\frac{a-\sqrt{a^2+4b}}{2},\lambda_2=\frac{a+\sqrt{a^2+4b}}{2}$,其相似变换为
+$$\left(
+   \begin{array}{cc}
+     a & b \\
+     1 & 0 \\
+   \end{array}
+ \right)   =
+  \left( \begin{array}{cc}
+     \lambda_1 & \lambda_2 \\
+     1 & 1 \\
+   \end{array}
+ \right)
+ \left(
+   \begin{array}{cc}
+     \lambda_1 & 0 \\
+     0 & \lambda_2 \\
+   \end{array}
+ \right)
+ \left(
+   \begin{array}{cc}
+     -1 & \lambda_2 \\
+     1 & -\lambda_1 \\
+   \end{array}
+ \right)\frac{1}{\sqrt{a^2+4b}}$$
+ $$
+    \begin{array}{c}
+ \left(
+   \begin{array}{cc}
+     a & b \\
+     1 & 0 \\
+   \end{array}
+ \right)^n   =
+  \left( \begin{array}{cc}
+     \lambda_1 & \lambda_2 \\
+     1 & 1 \\
+   \end{array}
+ \right)
+ \left(
+   \begin{array}{cc}
+     \lambda_1^n & 0 \\
+     0 & \lambda_2^n \\
+   \end{array}
+ \right)
+ \left(
+   \begin{array}{cc}
+     -1 & \lambda_2 \\
+     1 & -\lambda_1 \\
+   \end{array}
+ \right)\frac{1}{\sqrt{a^2+4b}}\\
+ = \left(\begin{array}{cc}
+     -\lambda_1^{n+1}+\lambda_2^{n+1} & \lambda_1^{n+1}\lambda_2-\lambda_1\lambda_2^{n+1}  \\
+     -\lambda_1^{n}+\lambda_2^{n}  & \lambda_1^{n}\lambda_2-\lambda_1\lambda_2^{n} \\
+   \end{array}
+ \right)\frac{1}{\sqrt{a^2+4b}}
+   \end{array}
+ $$
+ 因此，$F(n)=\frac{F(1)(-\lambda_1^{n+1}+\lambda_2^{n+1})+F(0)(\lambda_1^{n+1}\lambda_2-\lambda_1\lambda_2^{n+1})}{\sqrt{a^2+4b}}
+=\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n}-[F(1)\lambda_1+bF(0)]\lambda_1^{n}}{\sqrt{a^2+4b}}
+ $
+ \subsection{广义斐波纳契数列的近似表达式}
+如果广义斐波纳契数列的$\lambda_2>1>\lambda_1>0$,由上式可见$\lambda_1^n$将会越来越小，
+所以$$F(n)=\lfloor\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n}}{\sqrt{a^2+4b}}+0.5\rfloor\approx\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n}}{\sqrt{a^2+4b}}$$。
+下图为斐波纳契数列的对比，可见$n=4$时，已经非常接近了。
+
+\input{figure/fib/fib.tex}
+
 \newpage
 
 %-----------------------------------------------------------------------------------------
