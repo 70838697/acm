@@ -1,9 +1,10 @@
 
 %----------------------------------------------------------------------------------------
 
-\chapter{递推方程和母函数}
-\section{递归方程和矩阵幂}
-任何一个递归方程 $F\left(n\right)=a_1F\left(n-1\right)+a_2F\left(n-2\right)+...+a_kF\left(n-k\right)$,都可以转化为矩阵乘法:
+\chapter{递归方程和矩阵幂}
+\section{齐次递归方程和矩阵幂}
+任何一个递归方程 $F\left(n\right)=a_1F\left(n-1\right)+a_2F\left(n-2\right)+...+a_kF\left(n-k\right)$(其中递归方程前$k$项$F(0),F(1)m\cdots,F(k-1)$已知)
+都可以转化为矩阵乘法:
 $$\begin{array}{ccc}
 \left(\begin{array}{c}
   F(n) \\
@@ -11,7 +12,7 @@ $$\begin{array}{ccc}
   F(n-2) \\
   \vdots \\
   F(n-k+2) \\
-  F(n-k+1) 
+  F(n-k+1)
 \end{array}\right)
 &=&
 \left(
@@ -70,13 +71,13 @@ $$\begin{array}{ccc}
   \vdots \\
   F(2)\\
   F(1)
-\end{array}\right) 
+\end{array}\right)
 
 \end{array}
 $$
 设
-$$
-A=\left(
+ \begin{equation}\label{eq:requre_equation_1}
+\mathbf{A}=\left(
               \begin{array}{cccccc}
                 a_1    & a_2    & \cdots & a_{k-2} & a_{k-1} & a_k \\
                 1      & 0      & \cdots & 0       & 0       & 0\\
@@ -86,8 +87,8 @@ A=\left(
                 0      & 0      & \cdots &0        & 1       & 0 \\
               \end{array}
             \right)
-$$
-这个矩阵$A$的第一行是递推方程的各项系数，第二行开始的左下角$(n-1)*(n-1)$个元素，实际上组成一个$n-1$维单位矩阵。并且只要$a_k\neq 0$,$A$是可逆矩阵。
+\end{equation}
+这个矩阵$\mathbf{A}$的第一行是递推方程的各项系数，第二行开始的左下角$(n-1)*(n-1)$个元素，实际上组成一个$n-1$维单位矩阵。并且只要$a_k\neq 0$,$\mathbf{A}$是可逆矩阵。
 
 从上面的推导过程，我们看出，
 $$\left(\begin{array}{c}
@@ -96,17 +97,26 @@ $$\left(\begin{array}{c}
   \vdots \\
   F(n-k+1)
 \end{array}\right)
-=A^{n-k}
+=\mathbf{A}^{n-k}
 \left(\begin{array}{c}
   F(k) \\
   F(k-1) \\
   \vdots \\
   F(1)
 \end{array}\right)
-$$因此，求$F(n)$，可以利用矩阵的整数次幂求解，最终再乘上向量。但是实际上在求$A^n\mathbf{x}$时,不是先乘出来$A^n$再和$\mathbf{x}$相乘得到结果,而是边算边乘，
-如计算$A^{15}\mathbf{x}$,我们采用$A^8\left(A^4\left(A^2\left(A\mathbf{x}\right)\right)\right)$计算，而不是采用$\left(A^8\left(A^4\left(A^2A\right)\right)\right)\mathbf{x}$。这样可以减少运算次数。
+=\mathbf{A}^{n-k+1}
+\left(\begin{array}{c}
+  F(k-1) \\
+  F(k-2) \\
+  \vdots \\
+  F(0)
+\end{array}\right)
+$$因此，求$F(n)$，可以利用矩阵的整数次幂求解，最终再乘上向量。但是实际上在求$\mathbf{A}^n\mathbf{x}$时,不是先乘出来$\mathbf{A}^n$再和$\mathbf{x}$相乘得到结果,而是边算边乘，
+如计算$\mathbf{A}^{15}\mathbf{x}$,我们采用$\mathbf{A}^8\left(\mathbf{A}^4\left(\mathbf{A}^2\left(\mathbf{A}\mathbf{x}\right)\right)\right)$计算，而不是采用$\left(\mathbf{A}^8\left(\mathbf{A}^4\left(\mathbf{A}^2\mathbf{A}\right)\right)\right)\mathbf{x}$。这样可以减少运算次数。
 
-斐波纳契数列(Fibonacci Sequence)，又称黄金分割数列，指的是这样一个数列：1,1,2,3,5,8,13,21,$\cdots$.在数学上，斐波纳契数列以如下被以递归的方法定义：$F_0=0,F_1=1,F_n=F_{n-1}+F_{n-2}.$ $(n>=2,n\in N)$.不难推导得出：
+\begin{Exmpx}
+斐波纳契数列(Fibonacci Sequence)，又称黄金分割数列，指的是这样一个数列：1,1,2,3,5,8,13,21,$\cdots$.在数学上，斐波纳契数列以如下被以递归的方法定义：
+$F_0=0,F_1=1,F_n=F_{n-1}+F_{n-2}.$ $(n>=2,n\in N)$.不难推导得出：
 $$\left(\begin{array}{c}
   F_n \\
   F_{n-1}
@@ -123,15 +133,237 @@ $$\left(\begin{array}{c}
   1
 \end{array}\right)
 $$
+\end{Exmpx}
 
 \section{利用相似变换和矩阵特征值求矩阵幂}
+\begin{theorem}[相似变换]
+设$\mathbf{A},\mathbf{B}$都是$m$阶矩阵，若有可逆矩阵$\mathbf{P}$，使$\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{B}$则称$\mathbf{B}$是$\mathbf{A}$的相似矩阵，或说矩阵$\mathbf{A}$与$\mathbf{B}$相似，对进行运算$\mathbf{P}^{-1}\mathbf{A}\mathbf{P}$称为对$\mathbf{A}$进行相似变换，可逆矩阵$\mathbf{P}$ 称为把$\mathbf{A}$变成$\mathbf{B}$的相似变换矩阵．
+\end{theorem}
+\begin{theorem}
+若$m$阶矩阵$\mathbf{A}$与$\mathbf{B}$相似，则$\mathbf{A}$与$\mathbf{B}$的特征多项式相同，从而$\mathbf{A}$与$\mathbf{B}$的特征值亦相同．
+\end{theorem}
+\begin{theorem}
+$m$阶矩阵$\mathbf{A}$与对角阵相似（即$\mathbf{A}$能对角化）的充分必要条件是$\mathbf{A}$有$m$个线性无关的特征向量．
+\end{theorem}
+\begin{corollary}
+如果阶矩阵$\mathbf{A}$的$m$个特征值互不相等，则$\mathbf{A}$与对角矩阵相似．
+\end{corollary}
+一般来说，如果矩阵的特征值有重根的话，不一定可以对角化,也可能可以对角化。
+
+我们在这里讨论的是可以对角化的矩阵。也就是说对矩阵$\mathbf{A}$存在可逆相似阵$\mathbf{P}$和对角阵$\mathbf{B}$，使得
+$\mathbf{A}=\mathbf{P}^{-1}\mathbf{B}\mathbf{P}$,其中
+$
+\mathbf{B}=\left(
+             \begin{array}{cccc}
+               \lambda_1 & 0 & \cdots & 0 \\
+               0 & \lambda_2 & \cdots & 0 \\
+               \vdots & \cdots & \ddots & 0 \\
+               0 & 0 & \cdots & \lambda_m \\
+             \end{array}
+           \right)
+$,$\lambda_i,i=1,\cdots,m$为矩阵$A$的特征值。
+那么
+$$
+\begin{array}{cc}
+\mathbf{A}^n &= \left(\mathbf{P}^{-1}\mathbf{B}\mathbf{P}\right)^n = \mathbf{P}^{-1}\mathbf{B}^n\mathbf{P} \\
+&= \mathbf{P}^{-1}\left(
+             \begin{array}{cccc}
+               \lambda_1 & 0 & \cdots & 0 \\
+               0 & \lambda_2 & \cdots & 0 \\
+               \vdots & \cdots & \ddots & \vdots \\
+               0 & 0 & \cdots & \lambda_m
+             \end{array}
+           \right)^n\mathbf{P} \\
+&= \mathbf{P}^{-1}\left(
+             \begin{array}{cccc}
+               \lambda_1^n & 0 & \cdots & 0 \\
+               0 & \lambda_2^n & \cdots & 0 \\
+               \vdots & \cdots & \ddots & \vdots \\
+               0 & 0 & \cdots & \lambda_m^n
+             \end{array}
+           \right)\mathbf{P}\\
+&= \left(
+             \begin{array}{cccc}
+               \sum_{d=1}^mc_{11d}\lambda_d^n & \sum_{d=1}^mc_{12d}\lambda_d^n & \cdots & \sum_{d=1}^mc_{1md}\lambda_d^n \\
+               \sum_{d=1}^mc_{21d}\lambda_d^n & \sum_{d=1}^mc_{22d}\lambda_d^n & \cdots & \sum_{d=1}^mc_{2md}\lambda_d^n \\
+               \vdots & \cdots & \sum_{d=1}^mc_{ijd}\lambda_d^n & \vdots \\
+               \sum_{d=1}^mc_{m1d}\lambda_d^n & \sum_{d=1}^mc_{m2d}\lambda_d^n & \cdots & \sum_{d=1}^mc_{mmd}\lambda_d^n
+            \end{array}
+ \right)
+\end{array}
+$$
+这个式子说明$\mathbf{A}^n $的每一项都是$\lambda^n_i,i=1,\cdots,m$的线性组合,虽然$\mathbf{P}$可以求出来，并且确定这些系数，但是因为求$\mathbf{P}$很麻烦，我们不需要这么做。
+
+此时，不难得知
+$$
+\begin{array}{c}
+\left(\begin{array}{c}
+  F(n) \\
+  F(n-1) \\
+  \vdots \\
+  F(n-k+1)
+\end{array}\right)
+=\mathbf{A}^{n-k+1}
+\left(\begin{array}{c}
+  F(k-1) \\
+  F(k-2) \\
+  \vdots \\
+  F(0)
+\end{array}\right)\\
+=
+ \left(
+             \begin{array}{cccc}
+               \sum_{d=1}^mc_{11d}\lambda_d^{n-k+1} & \sum_{d=1}^mc_{12d}\lambda_d^{n-k+1} & \cdots & \sum_{d=1}^mc_{1md}\lambda_d^{n-k+1} \\
+               \sum_{d=1}^mc_{21d}\lambda_d^{n-k+1} & \sum_{d=1}^mc_{22d}\lambda_d^{n-k+1} & \cdots & \sum_{d=1}^mc_{2md}\lambda_d^{n-k+1} \\
+               \vdots & \cdots & \sum_{d=1}^mc_{ijd}\lambda_d^{n-k} & \vdots \\
+               \sum_{d=1}^mc_{m1d}\lambda_d^{n-k+1} & \sum_{d=1}^mc_{m2d}\lambda_d^{n-k+1} & \cdots & \sum_{d=1}^mc_{mmd}\lambda_d^{n-k+1}
+            \end{array}
+ \right)
+ \left(\begin{array}{c}
+      F(k-1) \\
+      F(k-2) \\
+      \vdots \\
+      F(0)
+ \end{array}\right)
+\\
+=
+ \left(\begin{array}{c}
+      \sum_{d=1}^mC_{1d}\lambda_d^{n-k+1}  \\
+      \sum_{d=1}^mC_{2d}\lambda_d^{n-k+1}  \\
+      \vdots \\
+      \sum_{d=1}^mC_{md}\lambda_d^{n-k+1}  \\
+ \end{array}\right)
+\end{array}
+$$
+
+上式说明:
+  $$F(n)=\sum_{d=1}^mC_{d}\lambda_d^{n-k+1}=\sum_{d=1}^mC'_{d}\lambda_d^{n}$$
+也就是$F(n)$可以由矩阵$\mathbf{A}$的特征向量的$n$次方的线性组合表示,剩下的事情只是待定$m$个系数$C'_{d}$。
+\begin{Exmpx}
+斐波纳契数列(Fibonacci Sequence)的递推矩阵：
+$\left(\begin{array}{c}
+  F_n \\
+  F_{n-1}
+\end{array}\right)
+=\left(
+   \begin{array}{cc}
+     1 & 1 \\
+     1 & 0 \\
+   \end{array}
+ \right)
+^{n-1}
+\left(\begin{array}{c}
+  1 \\
+  1
+\end{array}\right)
+$。矩阵$\left(
+   \begin{array}{cc}
+     1 & 1 \\
+     1 & 0 \\
+   \end{array}
+ \right)$的特征方程为
+$\left|
+   \begin{array}{cc}
+     \lambda-1 & -1 \\
+     -1 & \lambda \\
+   \end{array}
+ \right|=\lambda^2-\lambda-1=0
+ $,
+ 其两个特征值分别为$\lambda_1=\frac{1+\sqrt{5}}{2},\lambda_2=\frac{1-\sqrt{5}}{2}$，
+ 故$F_n=C_1\lambda_1^n+C_2\lambda_2^n$.
+ 令$n=0,1$代入得到方程组：
+ \begin{equation}
+     \begin{aligned}
+        0=C_1+C_2 \\
+        1=C_1\frac{1+\sqrt{5}}{2}+C_2\frac{1-\sqrt{5}}{2}
+     \end{aligned}
+\end{equation}
+很容易地知道$C_1=\frac{1}{\sqrt{5}},C_2=-\frac{1}{\sqrt{5}}$.从而
+$F_n=\frac{\left(\frac{1+\sqrt{5}}{2}\right)^n-\left(\frac{1-\sqrt{5}}{2}\right)^n}{\sqrt{5}}$.
+这就是斐波纳契数列的通项解。
+\end{Exmpx}
+
+实际上，递归方程 $F\left(n\right)=a_1F\left(n-1\right)+a_2F\left(n-2\right)+...+a_kF\left(n-k\right)$的矩阵(\ref{eq:requre_equation_1})的特征方程可以直接写成
+\begin{equation}
+\label{eq:requre_featured_equation_of_matrix}
+\lambda^k=a_1\lambda^{k-1}+a_2\lambda^{k-2}+...+a_k1
+\end{equation}证明这一点只需展开行列式$\left|\lambda\mathbf{E}-\mathbf{A}\right|$即可。
+\begin{Exmpx}
+斐波纳契数列的迭代式为$F_n=F_{n-1}+F_{n-2}$,
+因此，其特征方程可以直接写成$\lambda^2=\lambda+1$,这个式子和上面的方法得到的是一致的。
+\end{Exmpx}
+
+由上可见，可以直接写出特征方程，求出所有特征值，待定系数，就可求得递推方程的通解。
 
 \section{母函数的实质}
+可以设$F\left(n\right)$形式上为方程$G(x)$在$x=0$处的Taylor展开的系数，即
+\begin{equation}
+\label{eq:mother_quation_11}
+G(x)\equiv F(0)+F(1)x+F(2)x^2+\cdots+F(n)x^n+\cdots.
+\end{equation}
+由递归方程 $F\left(n\right)=a_1F\left(n-1\right)+a_2F\left(n-2\right)+...+a_kF\left(n-k\right)$，代入上式右端，比较左右端$x^n$的系数，可以知道
+$$G(x)=a_1G(x)x+a_2G(x)x^2+....+a_kG(x)x^k+F({k-1})x^{k-1}+...+F(1)x+F(0)$$
+因此形式上有
+$$G(x)=\frac{F(k-1)x^{k-1}+...+F(1)x+F(0)}{1-a_1x-a_2x^2-\cdots-a_kx^k}$$
+上式右端是个关于$x$的函数，可以Taylor展开。但是我们用一种比较巧妙的办法，因为分母$1-a_1x-a_2x^2-\cdots-a_kx^k$是一个$k$次多项式，我们知道它有$k$个复根$x_i,i=1,2,\cdots,k$（暂时不考虑重根）,再看一下前面的(\ref{eq:requre_featured_equation_of_matrix}),我们发现，它的$k$个复根正好是前面$k$个特征值的倒数$x_i=\frac{1}{\lambda_i},i=1,2,\cdots,k$.这不是巧合。
+因此
+$$
+\begin{array}{c}
+G(x)=\frac{F(k-1)x^{k-1}+...+F(1)x+F(0)}{1-a_1x-a_2x^2-\cdots-a_kx^k}\\
+=\frac{F(k-1)x^{k-1}+...+F(1)x+F(0)}{\left(x-\frac{1}{\lambda_1}\right)\cdots\left(x-\frac{1}{\lambda_k}\right)}\\
+=\frac{C_1}{\left(x-\frac{1}{\lambda_1}\right)}+\frac{C_2}{\left(x-\frac{1}{\lambda_2}\right)}+\cdots+\frac{C_k}{\left(x-\frac{1}{\lambda_k}\right)}\\
+=\frac{-\lambda_1C_1}{\left(1-x\lambda_1\right)}+\frac{-\lambda_2C_2}{\left(1-x\lambda_2\right)}+\frac{-\lambda_kC_k}{\left(1-x\lambda_k\right)}
+\end{array}
+$$
+上式的第二步到第三步是根据多项式分式的分解惟一性，通分后比较系数可以确定$C_i,i=1,2,\cdots,k.$
+又由无穷级数展开得：$\frac{1}{(1-x\lambda_i)}=\sum_{j=0}^\infty{\left(\lambda_ix\right)^j}=1+x\lambda_i+\left(x\lambda_i\right)^2+\left(x\lambda_i\right)^3+\cdots+\left(x\lambda_i\right)^k+\cdots$
+$$
+\begin{array}{c}
+G(x)=\frac{-\lambda_1C_1}{(1-x\lambda_1)}+\frac{-\lambda_2C_2}{(1-x\lambda_2)}+\cdots+\frac{-\lambda_nC_n}{(1-x\lambda_n)}\\
+=\sum^k_{i=0}-\lambda_iC_i\sum_{j=0}^\infty{\left(\lambda_ix\right)^j}\\
+=\sum_{j=0}^\infty{\sum^k_{i=0}-\lambda_iC_i\left(\lambda_ix\right)^j}\\
+=\sum_{j=0}^\infty{x^j\sum^k_{i=0}-\lambda_iC_i\left(\lambda_i\right)^j}
+\end{array}
+$$
+比较上式和$G(x)$的定义式(\ref{eq:mother_quation_11})，我们发现$F(n)=\sum^k_{i=0}-\lambda_iC_i\left(\lambda_i\right)^n=\sum^k_{i=0}C'_i\left(\lambda_i\right)^n$,其中$C'_i$为待定常数.
+这也是通项解的另一种解释，这个形式和上一节的式子是一致的，两种方法殊途同归。
+
+\section{特殊的递归方程求解}
+\subsection{特征值有多重的情形}
+如果$\lambda_i$为$f$重，则原来的$C'_i\lambda_i^n$变为$\left(D_0+\cdots+D_jn^{j-1}+\cdots+D_{f-1}n^{f-1}\right)\lambda_i^n$,要待定的系数总数还是$k$ 项。
+\begin{Exmpx}
+$f(n)=4f(n-1)-4f(n-2),f(0)=1,f(1)=6$.
+
+$\lambda=2$为二重特征值，则通解为$\left(C_1+C_2n\right)2^n$,
+代入确定得到通解为$(1+2n)2^n$.
+\end{Exmpx}
+
+\subsection{非齐次的情形}
+非齐次递归方程 $F_1\left(n\right)=a_1F\left(n-1\right)+a_2F\left(n-2\right)+...+a_kF\left(n-k\right)+g(n)$，此时$g(n)$是一个关于$n$的已知函数。
+此时其解为$F_1(n)=F(n)+f(n)$，其中$F(n)$是原来齐次递推方程的解，$f(n)$是非齐次方程的一个特解，具有以下几种形式：
+\subsubsection{$g(n)$是$n$的$m$次多项式}
+即$g(x)=b_1n^m+b_2n^{m-1}+\cdots+b_m$,
+则特解$f(n)=E_1n^m+E_2n^{m-1}+\cdots+E_m$,$E_i,i=1,2,\cdots,m$为待定系数。
+\subsubsection{$g(n)$是指数函数}
+$g(x)=(b_1n^m+b_2n^{m-1}+\cdots+b_m)a^n$,则如果$a$是特征方程的$r,r\ge0$重根,
+则特解$f(n)=(E_1n^m+E_2n^{m-1}+\cdots+E_m)n^ra^n$,$E_i,i=1,2,\cdots,m$为待定系数。
+\subsubsection{直接递推求解}
+对于非以上情形，一般采取猜测，或者直接递推求解。
+如$F(n)=F(n-1)n,F(0)$，直接可以递推得出它是$n!$.
 
 \section{整数矩阵幂求模时的周期性}
+如果$\mathbf{A}$为$k*k$的矩阵，它的每个元素都是正整数（不是的话，为负的项可以变为正数），且结果要对某个整数$m$求模，那么
+$\mathbf{A},\mathbf{A}^2,\mathbf{A}^3,\cdots$最多只有$m^{k*k}$种，因此必存在$1\le i<j\le m^{k*k},A^i=A^j $,也就是说存在循环节，当然，也可能
+$i\neq 1$,也就是说循环的起点并不是$A^1$.这个循环节可以暴力求出的。
 
-\section{矩阵幂的求和}
+\section{矩阵幂级数}
+有时候我们需要求矩阵的幂级数，
+$\mathbf{S}_n = \mathbf{I} + \mathbf{A} + \mathbf{A}^2 + \mathbf{A}^3 + \cdots + \mathbf{A}^n$
+此时我们采用2分的思想,可递归求解：
+$$\mathbf{S}_{2n}=\mathbf{S}_n(\mathbf{I}+\mathbf{A}^n)$$
+$$\mathbf{S}_{2n+1}=\mathbf{I}+\mathbf{S}_n(\mathbf{A}+\mathbf{A}^{n+1})$$
 
+在计算幂级数时最好缓存$A^1,A^2,A^4,A^8,\cdots,A^{2^{\lfloor\lg_2(n)\rfloor}}$,避免重复计算。
 \newpage
 
 %-----------------------------------------------------------------------------------------
