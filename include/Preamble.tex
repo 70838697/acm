@@ -1,0 +1,279 @@
+%---------------------------------------------------------------
+
+\newcommand{\song}{\CJKfamily{song}} % 宋体
+\newcommand{\fs}{\CJKfamily{fs}} % 仿宋体
+\newcommand{\kai}{\CJKfamily{kai}} % 楷体
+\newcommand{\hei}{\CJKfamily{hei}} % 黑体
+\newcommand{\li}{\CJKfamily{li}} % 隶书
+\newcommand{\you}{\CJKfamily{you}} % 圆幼
+\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}
+\newcommand{\xiaochuhao}{\fontsize{36pt}{\baselineskip}\selectfont}
+\newcommand{\yihao}{\fontsize{28pt}{\baselineskip}\selectfont}
+\newcommand{\erhao}{\fontsize{21pt}{\baselineskip}\selectfont}
+\newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}
+\newcommand{\sanhao}{\fontsize{15.75pt}{\baselineskip}\selectfont}
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}
+\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}
+\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}
+\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}
+
+\newcommand{\QD}[1]{\fontsize{10.5pt}{\baselineskip}\selectfont\kai #1\song\normalsize}
+\newcommand{\QQD}[1]{\fontsize{11pt}{\baselineskip}\selectfont\hei #1\song\normalsize}
+
+\newcommand{\Dashmarkx}{\hspace{1.5pt}\rule[3.5pt]{18pt}{.4pt}\hspace{1.5pt}}
+
+\newcounter{EnumCount}
+\renewcommand{\labelenumi}
+{\setcounter{EnumCount}{171+\value{enumi}}\raisebox{-2pt}
+{\Large\text{\ding{\value{EnumCount}}}}\ \,\normalsize}
+
+\newcounter{JTXDcount}
+\newenvironment{JTXDx}{%
+\setcounter{JTXDcount}{0}\mbox{}\hspace{-11pt}%
+\whiledo{\value{JTXDcount}&lt;27}
+{\footnotesize\ding{244}\ \ \
+\stepcounter{JTXDcount}}
+\\[8mm]\Large\hei\indent
+解题心得\song\normalsize\\[5mm]\indent
+}{\\[4mm]\mbox{}\hspace{8pt}%
+\setcounter{JTXDcount}{0}
+\whiledo{\value{JTXDcount}&lt;27}
+{\footnotesize\ding{246}\ \ \
+\stepcounter{JTXDcount}}\song\normalsize\mbox{}\\[2mm]}
+
+\newcommand{\CircledNumx}[1]{%
+\ifthenelse{#1=1}{%if
+\Large\raisebox{-2pt}{\ding{172}}}
+{%else
+\ifthenelse{#1=2}{%if
+\Large\raisebox{-2pt}{\ding{173}}}
+{%else
+\ifthenelse{#1=3}{%if
+\Large\raisebox{-2pt}{\ding{174}}}
+{%else
+\ifthenelse{#1=4}{%if
+\Large\raisebox{-2pt}{\ding{175}}}
+{%else
+\ifthenelse{#1=5}{%if
+\Large\raisebox{-2pt}{\ding{176}}}
+{%else
+\ifthenelse{#1=6}{%if
+\Large\raisebox{-2pt}{\ding{177}}}
+{%else
+\ifthenelse{#1=7}{%if
+\Large\raisebox{-2pt}{\ding{178}}}
+{%else
+\ifthenelse{#1=8}{%if
+\Large\raisebox{-2pt}{\ding{179}}}
+{%else
+\ifthenelse{#1=9}{%if
+\Large\raisebox{-2pt}{\ding{180}}}
+{%else
+\ifthenelse{#1=10}{%if
+\Large\raisebox{-2pt}{\ding{181}}}
+{%else doing nothing.
+}}}}}}}}}}\normalsize}
+
+%---------------------------------------------------
+\newcounter{cExmpNum}[chapter]
+
+\newtheoremstyle{ExmpxStyle}{5pt}{12pt}{\song}{21pt}{\hei}{}{11pt}
+{\thmname{#1}\thmnote{ (\mdseries #3)}}
+\theoremstyle{ExmpxStyle}
+\newtheorem{Exmpx}{\stepcounter{cExmpNum}例\hspace{2pt}
+\thechapter\hspace{1pt}.\hspace{2pt}\thecExmpNum}
+
+\newcommand{\ExmpRefx}[2]{例\ #1.\,#2\ }
+
+%---------------------------------------------------
+
+%---------------------------------------------------
+\newtheoremstyle{NotexStyle}{5pt}{12pt}{\kai}{22pt}{\hei}{ }{9pt}
+{\thmname{#1}\thmnote{ (\mdseries #3)}}
+\theoremstyle{NotexStyle}
+\newtheorem{Notex}{注\hspace{3pt}\song\normalsize}
+%---------------------------------------------------
+
+%---------------------------------------------------
+\newtheoremstyle{HintxStyle}{5pt}{12pt}{\song}{22pt}{\hei}{ }{9pt}
+{\thmname{#1}\thmnote{ (\mdseries #3)}}
+\theoremstyle{HintxStyle}
+\newtheorem{Hintx}{提示\hspace{3pt}\song\normalsize}
+%---------------------------------------------------
+\newcounter{cPrbx}[section]
+\newtheoremstyle{ProbxStyle}{5pt}{12pt}{\song}{21pt}{\xiaosihao\hei}{}{11pt}
+{\thmname{#1}\thmnote{ (\mdseries #3)}}
+\theoremstyle{ProbxStyle}
+\newtheorem{Prbx}{\stepcounter{cPrbx}问题\hspace{6pt}\Roman{cPrbx}\song\normalsize}
+%---------------------------------------------------
+\newtheoremstyle{DefxStyle}{5pt}{12pt}{\song}{21pt}{\xiaosihao\hei}{}{11pt}
+{\thmname{#1}\thmnote{ (\mdseries #3)}}
+\theoremstyle{DefxStyle}
+\newtheorem{Defx}{定义\hspace{6pt}}
+%---------------------------------------------------
+\newcommand{\JLx}[1][]{\indent\hei{解题思路\hspace{2pt}#1\hspace{1pt}:}\hspace{10pt}\song\normalsize}
+\newcommand{\Zx}[1][]{\indent\hei{证\hspace{2pt}#1\hspace{1pt}:}\hspace{10pt}\song\normalsize}
+\newcommand{\Jx}[1][]{\indent\hei{解\hspace{2pt}#1\hspace{1pt}:}\hspace{10pt}\song\normalsize}
+\newcommand{\Fx}[1][]{\indent\hei{分析\hspace{2pt}#1\hspace{1pt}:}\hspace{10pt}\song\normalsize}
+%---------------------------------------------------
+
+\newcommand{\SetChptTtl}[1]{\titleformat{\chapter}{\centering}
+{\erhao\hei 第\CJKnumber{\thechapter}章}{#1}{\erhao\hei}}
+
+%=================================================================================
+\makeatletter
+\newskip\@footindent
+\@footindent=1em
+
+\renewcommand\footnoterule{\kern-3\p@ \hrule width 0.4\columnwidth \kern 8\p@}
+\renewcommand\@footindent{0pt}
+\@addtoreset{footnote}{page}
+
+\long\def\@makefntext#1{\@setpar{\@@par\@tempdima \hsize
+\advance\@tempdima-\@footindent
+\parshape \@ne \@footindent \@tempdima}\par
+\noindent \hbox to \z@{\@thefnmark：\hspace{0pt}}#1}
+
+\renewcommand\thefootnote{\pinumber{\arabic{footnote}}}
+\def\@makefnmark{\hbox{\textsuperscript{\@thefnmark}}}
+
+\newcommand\pinumber[1]{\ifcase#1 \or\ 注 \else *\fi\relax}
+\makeatother
+
+\makeatletter
+\@addtoreset{footnote}{page}
+\makeatother
+
+\let\asas=\footnote
+\renewcommand\footnote[1]{\song\asas{\hspace{22pt}#1}}
+%==================================================================================
+
+\makeatletter
+\long\def\@makecaption#1#2{%
+\vskip\abovecaptionskip
+\sbox\@tempboxa{#2}%
+\ifdim \wd\@tempboxa &gt;\hsize
+   #2\par
+\else
+   \global \@minipagefalse
+   \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+\fi
+\vskip\belowcaptionskip}
+\makeatother
+
+\renewcommand{\figurename}{图}
+
+%==================================================================================
+
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\thx}{th}
+\DeclareMathOperator{\arsh}{arsh}
+\DeclareMathOperator{\arch}{arch}
+\DeclareMathOperator{\arth}{arth}
+\DeclareMathOperator{\grad}{grad\,}
+
+\newcommand{\DSx}{\displaystyle}
+\newcommand{\SSx}{\ \ \ \ }
+
+\newcommand{\Neqx}{\equiv\mspace{-16mu}/\mspace{10mu}}
+\newcommand{\Mapx}[1]{\xrightarrow{\rule{2mm}{0mm}\DSx#1\rule{2mm}{0mm}}}
+\newcommand{\Expx}[3][7pt]{#2^{\rule[-#1]{0.2pt}{0pt}{#3}}}
+\newcommand{\HFracx}[3][4pt]{\frac{#2}{\rule[#1]{0pt}{2pt}#3}}
+\newcommand{\Mfracx}[2]{\frac{\rule[0mm]{1mm}{0mm}#1\rule[0mm]{1mm}{0mm}}
+{\rule[0mm]{1mm}{0mm}#2\rule[0mm]{1mm}{0mm}}}
+\newcommand{\SSfracx}[3][6pt]{\frac{\scriptstyle#2}{\rule{0pt}{#1}\scriptstyle#3}}
+\newcommand{\HSqrtx}[2][4pt]{\sqrt{{#2}{\rule[#1]{0pt}{2pt}}}}
+
+\renewcommand{\descriptionlabel}[1]%
+{\hspace{\labelsep}\normalsize{#1}}
+
+\newcommand{\GoodShowx}[2]{
+\begin{description}
+\item[#1]\mbox{}\hfill$\DSx#2$\hfill\mbox{}
+\end{description}}
+
+\newcommand{\EvenGoodShowx}[3]{
+\noindent\raisebox{#1}{#2}\hfill
+$\begin{aligned}
+#3
+\end{aligned}$\hfill\mbox{}
+}
+
+\newcommand{\Prmx}[1]{#1\mspace{1mu}'} %&\#39;-->'
+\newcommand{\PPrmx}[1]{#1\mspace{1mu}'\mspace{1mu}'}
+\newcommand{\PPPrmx}[1]{#1\mspace{1mu}'\mspace{1mu}'\mspace{1mu}'}
+\newcommand{\Dffx}{\mspace{2mu}d\mspace{0.6mu}}
+\newcommand{\Dx}[2]{\dfrac{\Dffx#1}{\Dffx#2}}
+\newcommand{\DDx}[2]{\dfrac{\Dffx^{\,2}#1}{\Dffx#2^{\,2}}}
+\newcommand{\DDDx}[2]{\dfrac{\Dffx^{\,3}#1}{\Dffx#2^{\,3}}}
+\newcommand{\PPx}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\Intsx}[2]{\DSx\int_{#1}^{\mspace{2mu}#2}}
+\newcommand{\Intx}[4]{\DSx\Intsx{#1}{#2}{#4}\Dffx{#3}}
+
+\newcommand{\Vecx}[2][2ex]{\overrightarrow{\rule{0mm}{#1}{#2}\rule{2pt}{0mm}}}
+\newcommand{\TCx}[1]{\textcircled{\scriptsize #1}\ \ }
+\newcommand{\Overmapx}[3]{#1\xrightarrow{\rule{7pt}{0mm}\DSx#2\rule{6pt}{0mm}}#3}
+
+\newcommand{\Intvalx}[2]{\negthickspace\left.\rule[0pt]{0pt}{14pt}\right|_{\,#1}^{\,#2}}
+
+\newcommand{\InnerSetx}{\overset{\rule{3pt}{0pt}\circ}{I}}
+\newcommand{\SetMinor}{\diagdown}
+
+%==================================================
+
+\makeatletter
+\newcommand\RomNumx[1]{\ \@Roman #1\ }
+\makeatother
+
+%===================================================
+
+\titleformat{\chapter}{\centering}{\erhao\hei 第\CJKnumber{\thechapter}章}{9mm}{\erhao\hei}
+
+\titleformat{\section}{}{\textbf{\sihao\hei\raisebox{1pt}
+{\S}}\hspace{5pt}\sihao\hei\thesection\hspace{-12pt}}{8mm}{\sihao\hei}
+
+
+\newpagestyle{MainPgsStylex}{\sethead[\thepage][][\song\textsl{第~\CJKnumber{\thechapter}~章\hspace{1em}\chaptertitle}]%
+{\song\textsl{\thesection\hspace{1mm}节\hspace{1em}\sectiontitle}}{}{\thepage}\setfoot[][][]{}{}{}}
+
+\newpagestyle{FstPgsStylex}{\sethead[\thepage][][]{}{}{\thepage}\setfoot[][][]{}{}{}}
+
+\newpagestyle{DedPgsStylex}{\sethead[][][]{}{}{}\setfoot[][][]{}{}{}}
+
+\newpagestyle{PrfPgsStylex}{\sethead[][][]{}{}{}\setfoot[][][]{}{\thepage}{}}
+
+
+
+%===================================================
+
+\renewcommand\contentsname{目\hspace{2cm}录}
+
+\titlecontents{chapter}[0em]{\xiaosihao\hei\addvspace{0ex}}
+{第\CJKnumber{\thecontentslabel}章\hspace{1em}}{\hspace*{-2.3em}}
+{\hspace{.4em}\titlerule*[0.6pc]{.}\hspace{.4em}\contentspage}[\addvspace{-0.5ex}]
+\titlecontents{section}[3.6em]{\normalsize\addvspace{1.0ex}}
+{\contentslabel{1.6em}\hspace*{1.8em}}{\hspace*{-3.1em}}
+{\hspace{.4em}\titlerule*[0.6pc]{.}\hspace{.4em}\contentspage}
+
+
+\renewcommand{\bibname}{\song\sanhao 参\ 考\ 文\ 献}
+
+%===================================================
+
+\allowdisplaybreaks
+
+\setlength{\textwidth}{14cm}
+\setlength{\textheight}{21cm}
+\setlength{\parindent}{22pt}
+
+\titlespacing*{\chapter}{0mm}{3mm}{13mm}
+\titlespacing*{\section}{-9pt}{5mm}{6mm}
+\titlespacing*{\subsection}{0pt}{5mm}{4mm}
+
+\setlength{\evensidemargin}{1cm}
+\setlength{\oddsidemargin}{1cm}
+\linespread{1.3}
+%-----------------------------------------------------------------------------------------
