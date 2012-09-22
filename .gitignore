@@ -1,4 +1,4 @@
-
+*.sav
 *.bak
 *.toc
 *.aux
@@ -7,4 +7,7 @@
 *.gz
 *.bbl
 *.blg
+*.eps
+*.exe
+ctextemp*.*
 /acm.pdf
