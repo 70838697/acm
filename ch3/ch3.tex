@@ -402,7 +402,7 @@ $$\left(
      a & b \\
      1 & 0 \\
    \end{array}
- \right)^n   =
+ \right)^{n-1}   =
   \left( \begin{array}{cc}
      \lambda_1 & \lambda_2 \\
      1 & 1 \\
@@ -410,8 +410,8 @@ $$\left(
  \right)
  \left(
    \begin{array}{cc}
-     \lambda_1^n & 0 \\
-     0 & \lambda_2^n \\
+     \lambda_1^{n-1} & 0 \\
+     0 & \lambda_2^{n-1} \\
    \end{array}
  \right)
  \left(
@@ -421,22 +421,345 @@ $$\left(
    \end{array}
  \right)\frac{1}{\sqrt{a^2+4b}}\\
  = \left(\begin{array}{cc}
-     -\lambda_1^{n+1}+\lambda_2^{n+1} & \lambda_1^{n+1}\lambda_2-\lambda_1\lambda_2^{n+1}  \\
-     -\lambda_1^{n}+\lambda_2^{n}  & \lambda_1^{n}\lambda_2-\lambda_1\lambda_2^{n} \\
+     -\lambda_1^{n}+\lambda_2^{n} & \lambda_1^{n}\lambda_2-\lambda_1\lambda_2^{n}  \\
+     -\lambda_1^{n-1}+\lambda_2^{n-1}  & \lambda_1^{n-1}\lambda_2-\lambda_1\lambda_2^{n-1} \\
    \end{array}
  \right)\frac{1}{\sqrt{a^2+4b}}
    \end{array}
  $$
- 因此，$F(n)=\frac{F(1)(-\lambda_1^{n+1}+\lambda_2^{n+1})+F(0)(\lambda_1^{n+1}\lambda_2-\lambda_1\lambda_2^{n+1})}{\sqrt{a^2+4b}}
-=\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n}-[F(1)\lambda_1+bF(0)]\lambda_1^{n}}{\sqrt{a^2+4b}}
+ 因此，$F(n)=\frac{F(1)(-\lambda_1^{n}+\lambda_2^{n})+F(0)(\lambda_1^{n}\lambda_2-\lambda_1\lambda_2^{n})}{\sqrt{a^2+4b}}
+=\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}-[F(1)\lambda_1+bF(0)]\lambda_1^{n-1}}{\sqrt{a^2+4b}}
  $
  \subsection{广义斐波纳契数列的近似表达式}
-如果广义斐波纳契数列的$\lambda_2>1>\lambda_1>0$,由上式可见$\lambda_1^n$将会越来越小，
-所以$$F(n)=\lfloor\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n}}{\sqrt{a^2+4b}}+0.5\rfloor\approx\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n}}{\sqrt{a^2+4b}}$$。
-下图为斐波纳契数列的对比，可见$n=4$时，已经非常接近了。
+如果广义斐波纳契数列的$\left|\lambda_2\right|>1>\left|\lambda_1\right|>0$,由上式可见$\lim_{n\to\infty}\lambda_1^{n-1}=0$将会越来越小，
+所以$n$比较大时，第二项可以忽略。$$F(n)=\lfloor\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}}{\sqrt{a^2+4b}}+0.5\rfloor\approx\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}}{\sqrt{a^2+4b}}.$$
+本页中图斐波纳契数列和近似公式的对比，可见$n=4$时，已经非常接近了。
+$\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}}{\sqrt{a^2+4b}}$与$F(n)$的大小取决于$F(1)\lambda_1+bF(0)$的符号，以及$\lambda_1$的符号，比如斐波纳契数列的近似式$\frac{ \frac{\sqrt{5}+1}{2}^{n}}{\sqrt{5}}$可以从图中看出，$n$为奇数，近似值小于$F(n)$，$n$为偶数时，近似值大于$F(n)$。
 
+如果$\sqrt{a^2+4b}$为无理数，那么用二项分布展开把有理数项和无理数项合并会发现一些有趣的现象，即
+$$F(n)=\frac{A+\frac{F(n)}{2}\sqrt{a^2+4b}-\left(A-\frac{F(n)}{2}\sqrt{a^2+4b}\right)}{\sqrt{a^2+4b}}$$其中A是有理数，在后面分析斐波纳契数列时我们会再次讲到。
+
+\begin{figure}
 \input{figure/fib/fib.tex}
+%\caption{your caption1}
+\end{figure}
+\section{逆问题}
+已知$\lambda_i,i=1,...,k.$求矩阵，再求递推式的例子。
+\begin{Exmpx}[类菲波纳契数列]
+已知$F(n)=\left({5+2\sqrt{6}}\right)^n+\left({5-2\sqrt{6}}\right)^n$,求$F(n)\mod 1024$.
+
+特征方程即$\left(x-\left(5+2\sqrt{6}\right)\right)\left(x-\left(5-2\sqrt{6}\right)\right)=0$，即
+$x^2-10x+1=0$,化成递推式即
+$$F(n)=10F(n-1)+F(n-2),F(0)=2,F(1)=10.$$
+可用矩阵乘法求解。注意到此题${5-2\sqrt{6}}$其实是个非常小的小数，那么其实$F(n)\approx \lfloor{5+2\sqrt{6}}^n\rfloor+1$.
+\end{Exmpx}
+\section{解题的例子}
+\subsection{矩阵幂}
+以下源代码用到了t\_pow和t\_matrix.
+
+\begin{Exmpx}[HDU 1575]求矩阵的迹的和
+\begin{lstlisting}[language=C++]
+typedef t_matrix<int,__int64> Matrix;
+int main()
+{
+
+	int T,n,k;
+	MOD=9973;
+	scanf("%d",&T);
+	int i,j;
+	while(T--)
+	{
+		scanf("%d%d",&n,&k);
+		Matrix m(n),M_k(n);
+
+		m.set_zero();
+		for(i=0;i<n;++i)
+			for(j=0;j<n;++j)
+				scanf("%d",&(m[i][j]));
+		t_pow(m,k,M_k);
+		int sum=0;
+		for(i=0;i<n;++i){sum+=M_k[i][i];sum%=MOD;}
+		printf("%d\n",sum);
+	}
+	return 0;
+}
+\end{lstlisting}
+\end{Exmpx}
+
+\subsection{矩阵幂乘向量}
+此时在边算幂边乘向量，会加快，尤其是矩阵维数较大时，一定要优化。
+
+\begin{Exmpx}[HDU 1757]求矩阵带模乘法
+
+\begin{lstlisting}[language=C++]
+#include <stdio.h>
+typedef t_matrix<int,__int64> Matrix;
+int main()
+{
+
+	unsigned int k,m;
+	Matrix a(10);
+	a.set_zero();
+	int i,j;
+
+	for(i=1;i<10;++i)a[i][i-1]=1;
+
+	while(scanf("%u%d",&k,&m)==2)
+	{
+		Matrix msum(10);
+		msum.set_zero();
+		MOD=m;
+		for(i=0;i<10;++i)scanf("%d",&a[0][i]);
+
+		if(k<10)
+			printf("%d\n",k%m);
+		else
+		{
+			t_pow(a,k-9,msum);
+			int sum=0;
+			for(i=0;i<10;++i)
+				{
+					sum+=msum[0][i]*(9-i);
+					sum%=m;
+				}
+			printf("%d\n",sum);
+		}
+	}
+	return 0;
+}
+\end{lstlisting}
+\end{Exmpx}
+
+\begin{Exmpx}[HDU 2256]求多项式展开的系数
+
+由$\left(\sqrt{2}+\sqrt{3}\right)^{2n}=\left(5+2\sqrt{6}\right)^{n}$,且$\left(5-2\sqrt{6}\right)^{n}$是一个很小的整数。
+$F(n)=\left(5+2\sqrt{6}\right)^{n}+\left(5-2\sqrt{6}\right)^{n}$为整数，故所求结果为$F(n)-1$.
+由前面的逆问题可知，此题的矩阵为：
+$$
+ \left(
+   \begin{array}{cc}
+     10 & -1 \\
+     1 & 0 \\
+   \end{array}
+ \right).
+$$
+此题在最后出现-1，要化为正数.
+\begin{lstlisting}[language=C++]
+#include <stdio.h>
+typedef t_matrix<int,int> Matrix;
+int main()
+{
+	Matrix a(2),result(2);
+	a[0][0]=10;a[0][1]=-1;
+	a[1][0]=1;a[1][1]=0;
+
+	int icase;
+	unsigned int n;
+	scanf("%d",&icase);
+	MOD=1024;
+	while(icase--)
+	{
+		scanf("%u",&n);
+		if(n==0)printf("1\n");
+		else if(n==1)printf("9\n");
+		else
+		{
+			t_pow(a,n-1,result);
+			printf("%d\n",((result[0][0]*10+result[0][1]*2)%1024+1023)%1024);
+		}
+	}
+	return 0;
+}
+\end{lstlisting}
+
+也可由另一种求法，因为$\left(5+2\sqrt{6}\right)^{n}=a+b\sqrt{6},\left(5-2\sqrt{6}\right)^{n}=a-b\sqrt{6}$.故所求的即是$2a-1$.
+对$\left(5+2\sqrt{6}\right)$用二分法直接做关于$\sqrt{6}$的多项式整数幂，就可求得$a$,中间的$b$照样取模.
+
+第三种方法，因为$\left(5+2\sqrt{6}\right)^{n}=a_n+b_n\sqrt{6}=\left(a_{n-1}+b_{n-1}\sqrt{6}\right)\left(5+2\sqrt{6}\right)$
+，所以
+$$
+ \left(
+   \begin{array}{c}
+     a_n \\
+     b_n
+   \end{array}
+ \right)=
+ \left(
+   \begin{array}{cc}
+     5 & 12 \\
+     2 & 5 \\
+   \end{array}
+ \right)
+  \left(
+   \begin{array}{c}
+     a_{n-1} \\
+     b_{n-1}
+   \end{array}
+ \right)
+.
+$$
+
+第四种方法，考虑矩阵
+$
+\left(
+   \begin{array}{cc}
+     a_n & 3b_n \\
+     2b_n & a_n \\
+   \end{array}
+ \right)
+\left(
+   \begin{array}{cc}
+     a_n & 3b_n \\
+     2b_n & a_n \\
+   \end{array}
+ \right)
+=\left(
+   \begin{array}{cc}
+     a^2_n+6b^2_n & 6a_nb_n \\
+     4a_nb_n & a^2_n+6b^2_n \\
+   \end{array}
+ \right)
+=\left(
+   \begin{array}{cc}
+     a_2n & 3b_{2n} \\
+     2b_{2n} & a_{2n} \\
+   \end{array}
+ \right)
+$
+所以只需要求
+$
+\left(
+   \begin{array}{cc}
+     5 & 6 \\
+     4 & 5 \\
+   \end{array}
+ \right)
+$
+的幂就可以了，此方法不用乘向量（此方法推导暂时不明，凑出来的？）。
+
+\end{Exmpx}
+
+\begin{Exmpx}[HDU 2276]每个灯的状态为左右上一个灯状态的和
+
+这个题目是对$2^k$取模，其实也可以不取模，让它溢出，对结果无影响。
+\begin{lstlisting}[language=C++]
+#include <stdio.h>
+typedef t_matrix<int,int> Matrix;
+int main()
+{
+	Matrix a(2),result(2);
+	a[0][0]=10;a[0][1]=-1;
+	a[1][0]=1;a[1][1]=0;
+
+	int icase;
+	unsigned int n;
+	scanf("%d",&icase);
+	MOD=1024;
+	while(icase--)
+	{
+		scanf("%u",&n);
+		if(n==0)printf("1\n");
+		else if(n==1)printf("9\n");
+		else
+		{
+			t_pow(a,n-1,result);
+			printf("%d\n",((result[0][0]*10+result[0][1]*2)%1024+1023)%1024);
+		}
+	}
+	return 0;
+}
+\end{lstlisting}
+\end{Exmpx}
+
+其他题目 如HDU 2604
+
+\subsection{矩阵幂求和}
+以下源代码用到了t\_pow和t\_matrix\_powsum.
+
+
+\begin{Exmpx}[HDU 1588]Fibonacci数列求和
+
+\begin{lstlisting}[language=C++]
+typedef t_matrix<int,__int64> Matrix;
+#include<stdio.h>
+
+void solve_hdu_1588()
+{
+	int k,b,n,M;
+	//Fib matrix
+	Matrix a(2),fb(2),fk(2),sum(2);
+	a[0][0]=1;a[0][1]=1;
+	a[1][0]=1;a[1][1]=0;
+
+	while(scanf("%d%d%d%d",&k,&b,&n,&M)==4)
+	{
+
+		MOD=M;
+		//a^b
+		t_pow(a,b,fb);
+		//a^k
+		t_pow(a,k,fk);
+		int j=n-1;
+
+		sum.set_zero();
+		// sum(a^k*i) i=1,...,j
+		t_pow_sum(fk,j,sum);
+		// sum(a^(k*i+b)) i=1,...,j
+		Matrix::multiple(fb,sum,fk);
+		// sum(a^(k*i+b)) i=0,...,j
+		Matrix::add(fk,fb,sum);
+		//sum[0][1],not sum[0,0]
+		printf("%d\n",sum[0][1]);
+
+	}
+}
+\end{lstlisting}
+\end{Exmpx}
+
+\begin{Exmpx}[HDU 2294]组合数求和
+
+注意两个都是\_\_int64
+\begin{lstlisting}[language=C++]
+typedef t_matrix<__int64,__int64> Matrix;
+
+#include<stdio.h>
+
+void solve_2294()
+{
+    unsigned int T,num,K;
+    int i;
+
+	MOD=1234567891;
+	Matrix a(30),msum(30);
+
+    scanf("%u",&T);
+    while(T--)
+    {
+        scanf("%d%d",&num,&K);
+        if(K>num)
+        {
+            printf("0\n");
+            continue;
+        }
+		a.n=msum.n=K;
+		a.set_zero();
+        for(i=0;i<K;i++)
+        {
+            a[i][i]=(i+1);
+            if(i!=0)a[i][i-1]=K-i;
+        }
+        t_pow_sum(a,num-1,msum); //A^1+...+A^num-1
+        //for 1 kind A^0
+        Matrix one(K);
+		one.set_one();
+		Matrix::add(one,msum,msum);
+
+		int ir=((__int64)K*msum[K-1][0])%MOD;
+        printf("%d\n",ir);
+    }
+}
+\end{lstlisting}
+\end{Exmpx}
+%-----------------------------------------------------------------------------------------
 
 \newpage
-
-%-----------------------------------------------------------------------------------------
