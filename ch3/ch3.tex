@@ -19,9 +19,9 @@ $$\begin{array}{ccc}
               \begin{array}{cccccc}
                 a_1    & a_2    & \cdots & a_{k-2} & a_{k-1} & a_k \\
                 1      & 0      & \cdots & 0       & 0       & 0\\
-                0      & 1      & \cdots & 0       & 0       & 0\\
-                \vdots & \vdots & \ddots & \vdots  & 0       & 0\\
-                0      & 0      & \cdots &1        & 0       & 0 \\
+                0      & 1      & \ddots & 0       & 0       & 0\\
+                \vdots & \ddots & \ddots & \ddots  & 0       & 0\\
+                0      & 0      & \ddots &1        & 0       & 0 \\
                 0      & 0      & \cdots &0        & 1       & 0 \\
               \end{array}
             \right)
@@ -38,9 +38,9 @@ $$\begin{array}{ccc}
               \begin{array}{cccccc}
                 a_1    & a_2    & \cdots & a_{k-2} & a_{k-1} & a_k \\
                 1      & 0      & \cdots & 0       & 0       & 0\\
-                0      & 1      & \cdots & 0       & 0       & 0\\
-                \vdots & \vdots & \ddots & \vdots  & 0       & 0\\
-                0      & 0      & \cdots &1        & 0       & 0 \\
+                0      & 1      & \ddots & 0       & 0       & 0\\
+                \vdots & \ddots & \ddots & \ddots  & 0       & 0\\
+                0      & 0      & \ddots &1        & 0       & 0 \\
                 0      & 0      & \cdots &0        & 1       & 0 \\
               \end{array}
             \right)^2
@@ -58,9 +58,9 @@ $$\begin{array}{ccc}
               \begin{array}{cccccc}
                 a_1    & a_2    & \cdots & a_{k-2} & a_{k-1} & a_k \\
                 1      & 0      & \cdots & 0       & 0       & 0\\
-                0      & 1      & \cdots & 0       & 0       & 0\\
-                \vdots & \vdots & \ddots & \vdots  & 0       & 0\\
-                0      & 0      & \cdots &1        & 0       & 0 \\
+                0      & 1      & \ddots & 0       & 0       & 0\\
+                \vdots & \ddots & \ddots & \ddots  & 0       & 0\\
+                0      & 0      & \ddots &1        & 0       & 0 \\
                 0      & 0      & \cdots &0        & 1       & 0 \\
               \end{array}
             \right)^{n-k}
@@ -81,14 +81,14 @@ $$
               \begin{array}{cccccc}
                 a_1    & a_2    & \cdots & a_{k-2} & a_{k-1} & a_k \\
                 1      & 0      & \cdots & 0       & 0       & 0\\
-                0      & 1      & \cdots & 0       & 0       & 0\\
-                \vdots & \vdots & \ddots & \vdots  & 0       & 0\\
-                0      & 0      & \cdots &1        & 0       & 0 \\
+                0      & 1      & \ddots & 0       & 0       & 0\\
+                \vdots & \ddots & \ddots & \ddots  & 0       & 0\\
+                0      & 0      & \ddots &1        & 0       & 0 \\
                 0      & 0      & \cdots &0        & 1       & 0 \\
               \end{array}
             \right)
 \end{equation}
-这个矩阵$\mathbf{A}$的第一行是递推方程的各项系数，第二行开始的左下角$(n-1)*(n-1)$个元素，实际上组成一个$n-1$维单位矩阵。并且只要$a_k\neq 0$,$\mathbf{A}$是可逆矩阵。
+这个矩阵$\mathbf{A}$的第一行是递推方程的各项系数，第二行开始的左下角$(k-1)*(k-1)$个元素，实际上组成一个$k-1$维单位矩阵。并且只要$a_k\neq 0$,$\mathbf{A}$是可逆矩阵。
 
 从上面的推导过程，我们看出，
 $$\left(\begin{array}{c}
@@ -296,6 +296,7 @@ $F_n=\frac{\left(\frac{1+\sqrt{5}}{2}\right)^n-\left(\frac{1-\sqrt{5}}{2}\right)
 由上可见，可以直接写出特征方程，求出所有特征值，待定系数，就可求得递推方程的通解。
 
 \section{母函数的实质}
+数列$F\left(n\right)$的母函数$G(x)$定义如下：
 可以设$F\left(n\right)$形式上为方程$G(x)$在$x=0$处的Taylor展开的系数，即
 \begin{equation}
 \label{eq:mother_quation_11}
@@ -347,7 +348,7 @@ $\lambda=2$为二重特征值，则通解为$\left(C_1+C_2n\right)2^n$,
 \subsubsection{$g(n)$是指数函数}
 $g(x)=(b_1n^m+b_2n^{m-1}+\cdots+b_m)a^n$,则如果$a$是特征方程的$r,r\ge0$重根,
 则特解$f(n)=(E_1n^m+E_2n^{m-1}+\cdots+E_m)n^ra^n$,$E_i,i=1,2,\cdots,m$为待定系数。
-\subsubsection{直接递推求解}
+\subsection{直接递推求解}
 对于非以上情形，一般采取猜测，或者直接递推求解。
 如$F(n)=F(n-1)n,F(0)=1$，直接可以递推得出它是$n!$.
 
@@ -427,17 +428,22 @@ $$\left(
  \right)\frac{1}{\sqrt{a^2+4b}}
    \end{array}
  $$
- 因此，$F(n)=\frac{F(1)(-\lambda_1^{n}+\lambda_2^{n})+F(0)(\lambda_1^{n}\lambda_2-\lambda_1\lambda_2^{n})}{\sqrt{a^2+4b}}
-=\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}-[F(1)\lambda_1+bF(0)]\lambda_1^{n-1}}{\sqrt{a^2+4b}}
- $
- \subsection{广义斐波纳契数列的近似表达式}
-如果广义斐波纳契数列的$\left|\lambda_2\right|>1>\left|\lambda_1\right|>0$,由上式可见$\lim_{n\to\infty}\lambda_1^{n-1}=0$将会越来越小，
-所以$n$比较大时，第二项可以忽略。$$F(n)=\lfloor\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}}{\sqrt{a^2+4b}}+0.5\rfloor\approx\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}}{\sqrt{a^2+4b}}.$$
-本页中图斐波纳契数列和近似公式的对比，可见$n=4$时，已经非常接近了。
-$\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}}{\sqrt{a^2+4b}}$与$F(n)$的大小取决于$F(1)\lambda_1+bF(0)$的符号，以及$\lambda_1$的符号，比如斐波纳契数列的近似式$\frac{ \frac{\sqrt{5}+1}{2}^{n}}{\sqrt{5}}$可以从图中看出，$n$为奇数，近似值小于$F(n)$，$n$为偶数时，近似值大于$F(n)$。
+ 因此，
+\begin{equation}
+\label{equation_speacial_solution_fib}
+ F(n)=\frac{F(1)(-\lambda_1^{n}+\lambda_2^{n})+F(0)(\lambda_1^{n}\lambda_2-\lambda_1\lambda_2^{n})}{\sqrt{a^2+4b}}
+=\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}-[F(1)\lambda_1+bF(0)]\lambda_1^{n-1}}{\sqrt{a^2+4b}}.
+\end{equation}
 
-如果$\sqrt{a^2+4b}$为无理数，那么用二项分布展开把有理数项和无理数项合并会发现一些有趣的现象，即
+ 如果$\sqrt{a^2+4b}$为无理数，那么用二项分布展开把有理数项和无理数项合并会发现一些有趣的现象，即
 $$F(n)=\frac{A+\frac{F(n)}{2}\sqrt{a^2+4b}-\left(A-\frac{F(n)}{2}\sqrt{a^2+4b}\right)}{\sqrt{a^2+4b}}$$其中A是有理数，在后面分析斐波纳契数列时我们会再次讲到。
+
+ 
+ \subsection{广义斐波纳契数列的近似表达式}
+如果广义斐波纳契数列的$\left|\lambda_2\right|>1>\left|\lambda_1\right|>0$,由通解(\ref{equation_speacial_solution_fib})可见$\lim_{n\to\infty}\lambda_1^{n-1}=0$将会越来越小，
+所以$n$比较大时，第二项可以忽略。$$F(n)=\lfloor\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}}{\sqrt{a^2+4b}}+0.5\rfloor\approx\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}}{\sqrt{a^2+4b}},n>>1.$$
+本页中图斐波纳契数列和近似公式的对比，可见$n=4$时，已经非常接近了。
+$\frac{[F(1)\lambda_2+bF(0)]\lambda_2^{n-1}}{\sqrt{a^2+4b}}$与$F(n)$的大小取决于$F(1)\lambda_1+bF(0)$的符号，以及$\lambda_1$的符号，比如斐波纳契数列的近似式$\frac{ \left(\frac{\sqrt{5}+1}{2}\right)^{n}}{\sqrt{5}}$可以从图中看出，$n$为奇数，近似值小于$F(n)$，$n$为偶数时，近似值大于$F(n)$。
 
 \begin{figure}
 \input{figure/fib/fib.tex}
@@ -451,7 +457,7 @@ $$F(n)=\frac{A+\frac{F(n)}{2}\sqrt{a^2+4b}-\left(A-\frac{F(n)}{2}\sqrt{a^2+4b}\r
 特征方程即$\left(x-\left(5+2\sqrt{6}\right)\right)\left(x-\left(5-2\sqrt{6}\right)\right)=0$，即
 $x^2-10x+1=0$,化成递推式即
 $$F(n)=10F(n-1)+F(n-2),F(0)=2,F(1)=10.$$
-可用矩阵乘法求解。注意到此题${5-2\sqrt{6}}$其实是个非常小的小数，那么其实$F(n)\approx \lfloor{5+2\sqrt{6}}^n\rfloor+1$.
+可用矩阵乘法求解。注意到此题${5-2\sqrt{6}}$其实是个非常小的小数，那么其实$F(n)\approx \lfloor\left({5+2\sqrt{6}}\right)^n\rfloor+1$.
 \end{Exmpx}
 \section{解题的例子}
 \subsection{矩阵幂}
@@ -621,7 +627,7 @@ $
  \right)
 =\left(
    \begin{array}{cc}
-     a_2n & 3b_{2n} \\
+     a_{2n} & 3b_{2n} \\
      2b_{2n} & a_{2n} \\
    \end{array}
  \right)
@@ -639,7 +645,7 @@ $
 
 \end{Exmpx}
 
-\begin{Exmpx}[HDU 2276]每个灯的状态为左右上一个灯状态的和
+\begin{Exmpx}[HDU 2276]每个灯的状态为左右灯上一次状态的和
 
 这个题目是对$2^k$取模，其实也可以不取模，让它溢出，对结果无影响。
 \begin{lstlisting}[language=C++]
