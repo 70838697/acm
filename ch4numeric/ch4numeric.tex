@@ -2,9 +2,92 @@
 %----------------------------------------------------------------------------------------
 
 \chapter{数值计算问题}
-\section{数列通项公式和插值}
+\section{插值和数列通项公式}
+\subsection{插值问题}
+函数$y=f(x)$ 未知，但是知道$f(x)$在$n+1$个不同的点$x_0,x_1,\cdots,x_n,(x_i\neq x_j,i\neq j)$的$y$值.\\
+\begin{tabular}{|c|c|c|c|c|}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+  $x$ & $x_0$ & $x_1$ & $\cdots$ & $x_n$\\
+  \hline
+  $y=f(x)$ & $y_0$ & $y_1$ & $\cdots$ & $y_n$ \\
+  \hline
+\end{tabular}\\
+显然函数$f(x)$的原函数是不知道的，但是当我们假定要求的函数是一个$n$次多项式$P_n(x)=a_0+a_1x+\cdots+a_nx^n$时，这个多项式有$a_0,a_1,\cdots,a_n$共$n+1$个参数待定,我们有以下结论。
+\begin{theorem}[插值唯一性定理]
+已知$n+1$个不同点$(x_i,y_i),x_i\neq x_j,1\leq i \leq j\leq n$,则所求的多项式$n$次多项式$P_n(x)=a_0+a_1x+\cdots+a_nx^n$是唯一的。
+\end{theorem}
+分别将$(x_i,y_i),i=0,\cdots,n$代入多项式，得到一个包含$n+1$个方程的方程组
+$$
+\left\{
+  \begin{array}{ccc}
+   a_0+a_1x_0+\cdots+a_nx_0^n &=&y_0  \\
+   a_0+a_1x_1+\cdots+a_nx_1^n &=&y_1  \\
+   &\cdots&  \\
+   a_0+a_1x_n+\cdots+a_nx_n^n &=&y_n  \\
+  \end{array}
+\right.
+$$
+这个方程组写成矩阵的形式可以知道，其矩阵是一个范德蒙矩阵，因此非奇异，所以有唯一解，可以利用克莱姆法则解得唯一的一组系数$a_0,a_1,\cdots,a_n$。
+\subsection{插值问题的实质}
+上一节中的唯一性定理，实际上表明了对于固定的$n+1$个点$x_0,x_1,\cdots,x_n$，存在一个一一映射将$y_0,y_1,\cdots,y_n$映射到多项式函数$P_n(x)=a_0+a_1x+\cdots+a_nx^n$。这个一一映射将$\mathbf{y}$的向量空间映射为不超过$n$次的多项式函数的函数空间，而且它具有保线性性，也就是说如果对应$y_0,y_1,\cdots,y_n$的多项式函数是$P_n(x)=a_0+a_1x+\cdots+a_nx^n$，对应$z_0,z_1,\cdots,z_n$的多项式函数是$F_n(x)=b_0+b_1x+\cdots+b_nx^n$，那么对应$y_0+z_0,y_1+z_1,\cdots,y_n+z_n$的多项式就是$\left(a_0+b_0\right)+\left(a_1+b_1\right)x+\cdots+\left(a_n+b_n\right)x^n$,这一点根据唯一性是很好证明的。
+\begin{Exmpx}
+\begin{tabular}{|c|c|c|c|c|}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+  $x_i$ & $0$ & $1$ & $2$ & $3$\\
+  \hline
+  $f(x_i)$ & $0$ & $1$ & $8$ & $27$ \\
+  \hline
+  $g(x_i)$ & $0$ & $1$ & $4$ & $9$ \\
+  \hline
+  $k(x_i)$ & $0$ & $-1$ & $0$ & $9$ \\
+  \hline
+\end{tabular}\\
+已知4个点$x=0,1,2,3$处的函数值，则联立方程组，可以分别求得唯一个不高于3次的多项式$f(x)=x^3$和$g(x)=x^2$满足上表中的数据。实际上本题的$f(x),g(x)$可以观察即可得出，不一定要解方程组。而对于$k(x)$，也可以联立方程组解决，但是我们可以观察到$(0,-1,0,9)=(0,1,8,27)-2(0,1,4,9)$，因此$k(x)=f(x)-2g(x)=x^3-2x^2.$
+\end{Exmpx}
+
+上面的例子告诉我们一个简单的事实，就是如果存在向量$k+1\in Z$个$n+1$维向量，$\mathbf{\varepsilon}_0=(\varepsilon_{00},\varepsilon_{01},\cdots,\varepsilon_{0n})$,
+$\cdots $,
+$\mathbf{\varepsilon}_k=(\varepsilon_{k0},\varepsilon_{k1},\cdots,\varepsilon_{kn})$,
+其对应的不高于$n$次的多项式分别为$f_0(x),f_1(x),\cdots,f_k(x)$. 并且
+$\mathbf{y}=(y_1,y_2,\cdots,y_n)$可以由$\mathbf{\varepsilon}_0,\cdots,\mathbf{\varepsilon}_k$线性表出，即$\mathbf{y}=\alpha_0\mathbf{\varepsilon}_0+\alpha_1\mathbf{\varepsilon}_1+\cdots+\alpha_k\mathbf{\varepsilon}_k$。
+那么所求的$P_n(x)=\alpha_0f_0(x)+\alpha_1f_1(x)+\cdots+\alpha_kf_k(x) $.
+这一结论告诉我们先求出一些简单的向量对应的不高于$n$次的多项式函数
+，然后线性组合这些函数得到答案。
+
+实际上因为$\mathbf{\varepsilon}_0=(1,1,\cdots,1)$对应的函数为$f_0(x)=1$,
+$\mathbf{\varepsilon}_1=(x_0,x_1,\cdots,x_n)$对应的函数为$f_1(x)=x$,
+$\mathbf{\varepsilon}_2=(x^2_0,x^2_1,\cdots,x^2_n)$对应的函数为$f_2(x)=x^2$,$\cdots$,
+$\mathbf{\varepsilon}_n=(x^n_0,x^n_1,\cdots,x^n_n)$对应的函数为$f_n(x)=x^n$,所以上面的求系数$a_0,a_1,\cdots,a_n$
+相当于求$\mathbf{y}=(y_1,y_2,\cdots,y_n)$的线性表出$\mathbf{y}=a_0\mathbf{\varepsilon}_0+a_1\mathbf{\varepsilon}_1+\cdots+a_n\mathbf{\varepsilon}_n$。
+
+由上可以得出，我们上面提到的向量空间和多项式函数空间的一一映射将会把线性空间的一组基映射到多项式空间的一组基。上面求系数对应函数空间的基为$1,x,\cdots,x^n$.
+\subsubsection{拉格朗日插值公式}
+显然$\mathbf{y}$存在这样的一组线性表出，
+$\mathbf{y}=(y_1,y_2,\cdots,y_n)=y_0(1,0,\cdots,0)+y_1(0,1,\cdots)+y_n(0,0,\cdots,1)$.
+那么我们只要求出满足在$(x_0,x_1,\cdots,x_n)$处分别具有$(1,0,\cdots,0),\cdots,(0,0,\cdots,1)$的$n+1$个不超过$n$次的简单函数，我们就可以组合得到任何$\mathbf{y}$的不超过$n$次多项式。
+实际上对于只有一个1的向量$(0,\cdots,y_i=1,\cdots,0)$，这个不超过$n$次的多项式为
+$$L_i(x)=\frac{(x-x_0)\cdots(x-x_{i-1})(x-x_{i+1})\cdots(x-x_n)}{(x_i-x_0)\cdots(x_i-x_{i-1})(x_i-x_{i+1})\cdots(x_i-x_n)}.$$
+这一点由$L_i(x)$有$n$个零点$x_0,\cdots,x_{i-1},x_{i+1},\cdots,x_n$,并且$L_i(x_i)=1$可以很容易得出。
+所以$P_n(x)=\sum_{i=0}^{n}y_iL_i(x)$.这个公式称为拉格朗日插值公式。例子见后面。
+
+拉格朗日插值里面线性空间的正交基和函数空间的拉格朗日基一一映射。求系数对应函数空间的基为$L_0(x),L_1(x),\cdots,L_n(x)$.
+\subsubsection{牛顿插值公式}
+牛顿插值公式则是利用更加复杂的一组基来组合得到结论。考虑现在已经有一个经过$k+1$个点$(x_0,y_0),\cdots,(x_k,y_k)$的不超过$k$ 次的多项式函数$N_k(x)=b_0+b_1x+\cdots+b_kx^k$,显然这个函数是存在唯一的.现在要修正$N_k(x)$,得到一个不超过$k+1$次的多项式函数$N_{k+1}(x)$使得它不仅经过$k+1$个点$(x_0,y_0),\cdots,(x_k,y_k)$，而且要经过一个新的点$(x_{k+1},y_{k+1})$。
+我们可以设$N_{k+1}(x)=N_k(x)+c_k(x-x_0)\cdots(x-x_k)$,系数$c_k$待定。很显然$N_{k+1}(x)$此时经过$(x_0,y_0),\cdots,(x_k,y_k)$。但是$N_{k+1}(x_{k+1})=N_k(x_{k+1})+c_k(x_{k+1}-x_0)\cdots(x_{k+1}-x_k)=y_{k+1}$,可以解得
+$c_k=\frac{y_{k+1}-N_k(x_{k+1}}{(x_{k+1}-x_0)\cdots(x_{k+1}-x_k)}$.
+按照这个思路，我们可以知道经过1个点$(x_0,y_0)$的0次函数$N_0(x)\equiv y_0$,经过两个点的函数
+$N_0(x)+c_0(x-x_0)=y_0+\frac{y_1-y_0)}{x_1-x_0}(x-x_0)$,如此下去可以求得经过$n+1$个点的不超过$n$次的多项式.在这里我们要指出，牛顿插值公式所得到的多项式函数和拉格朗日插值公式得到的多项式是同一个函数，只是写法不同。
+
+牛顿插值公式的好处在于可以增量式求解插值函数，前一次算出的多项式函数在增加一个点时还能用到。
+牛顿插值函数实际上是要求$N_n(x)=c_0+c_1(x-x_0)+\cdots+c_n(x-x_0)\cdots(x-x_n)$的系数$c_0,c_1,\cdots,c_n$.它对应函数空间的基为$1,(x-x_0),\cdots,(x-x_0)\cdots(x-x_n)$.
+
+除了上面待定系数的方法以外，牛顿插值的系数$c_k$还可以利用差商来求解，$x_i$处的0阶差商$f[x_i]\equiv y_i$,$x_i$处的1阶差商$f[x_i,x_{i+1}]\equiv \frac{f[x_{i+1}]-f[x_i]}{x_{i+1}-x_i}$,$x_i$处的$k$阶差商由两个低阶差商定义，$f[x_i,\cdots,x_{k}]\equiv\frac{f[x_{i+1},\cdots,x_{k}]-f[x_i,\cdots,x_{k-1}]}{x_{i+1}-x_i}$.
+上面系数
+$c_k=f[x_0,\cdots,x_{k}]$.
 \subsection{数列通项公式}
-我们经常碰到求数列中某一项的问题。本章我们将从数学的观点探讨一种求法，试图求出一些序列的通项公式，该方法对部分题目是有效的。
+我们经常碰到求数列中某一项的问题。本节我们将从数学的观点探讨一种求法，试图求出一些序列的通项公式，该方法对部分题目是有效的。
 \begin{Exmpx}[数字填空]问号处应该填什么数字呢?\\
 0    2    6     12     ?   30\\
 0    6    24   60      ?  210
@@ -19,30 +102,22 @@
 \end{Exmpx}
 
 从数学的观点来看，数列可以视为一个关于时间的函数，$F(n),n=0,1,\cdots.$因此意味着只要找到这个函数了，我们就可以说找到数列的通项公式了（$F(n)$不一定是一个有解析表达式的函数）。函数的种类有很多，比如,上面的几个数列的函数如下：
-\begin{Exmpx}[常见函数]
 $n(n+1)$, $n(n+1)(n+2)$, $2n$,$prime(n)$第$n+1$个质数,$n^2$,$Fibonacci(n)$,$\sum_{i=0}^ni=\frac{n(n+1)}{2}$.
 通常由于不知道函数的基本形式，我们只能靠观察。
-\end{Exmpx}
-\subsection{数列通项公式的基函数}
-\subsection{插值}
-插值实际上是在多项式空间寻找一个函数，满足已知数列的前$k+1$项$F(0),\cdots,F(k)$，也就是说
+\subsubsection{用插值求数列通项公式}
+前面关于插值的介绍我们知道插值实际上是在多项式空间寻找一个函数，满足已知数列的前$k+1$项$F(0),\cdots,F(k)$，也就是说
 寻找一个不高于$k$次多项式
 \begin{equation}
 \label{eq:pn_x1_xn}
 F(n)=a_kn^k+\cdots+a_1n+a_0
 \end{equation}
-使得前$k+1$项在以$n=0,1,2,\cdots,k$代入时，得到相应的$F(0),\cdots,F(k)$。
-
-可以证明这个多项式是存在唯一的。
+使得前$k+1$项在以$n=0,1,2,\cdots,k$代入时，得到相应的$F(0),\cdots,F(k)$。这个多项式是唯一存在的。
 
 \begin{Exmpx}[平方和数列]
-0 1 5 14 $\cdots$ \\
-它的通项公式是$F(n)=\frac{n(n+1)(2n+1)}{6}$.
+0 1 5 14 $\cdots$ 的通项公式是$F(n)=\frac{n(n+1)(2n+1)}{6}$.
 \end{Exmpx}
 
-因为一个不高于$k$次多项式组成一个多项式的线性空间，这个空间是$k+1$维的，只要找出$n+1$个线性无关的多项式，那么就构成这个线性空间的一组基。
-虽然解是同一个函数，根据基的不同，要待定的系数也不同，解法就不同。
-\subsection{线性方程组求解插值}
+\subsubsection{线性方程组求解多项式通项公式}
 取的基为$1,n,n^2,\cdots,n^k$，$F(n)$以式(\ref{eq:pn_x1_xn})的方式表出时，要求解$n+1$个参数$a_n,a_{n-1},\cdots,a_1,a_0$.
 这里有$n+1$个参数$a_n,a_{n-1},\cdots,a_1,a_0$待定，正好可以连立得到$n+1$个方程组成的线性方程组。
 因为方程的系数矩阵是范德蒙行列式，用克莱姆法则可以求解，但是克莱姆法则计算量太大。
@@ -58,15 +133,32 @@ F(n)=a_kn^k+\cdots+a_1n+a_0
   0 &=& a_0 \\
   1 &=& a_3+a_2+a_1+a_0 \\
   5 &=& 8a_3+4a_2+2a_1+a_0 \\
-  14 &=& 27a_3+9a_2+3a_1+a_0 
+  14 &=& 27a_3+9a_2+3a_1+a_0
 \end{array}
 \right.
 \end{equation}
 可以解得$a_3=\frac{1}{3},a_2=\frac{1}{2},a_1={1}{6},a_0=0$,也就是说
 $F(n)=a_3n^3+a_2n^2+a_1n+a_0=\frac{1}{3}n^3+\frac{1}{2}n^2+\frac{1}{6}n=\frac{n(n+1)(2n+1)}{6}$
 \end{Exmpx}
+\subsubsection{拉格朗日插值公式求解多项式通项公式}
+拉格朗日基函数为
+$$L_i(x)=\frac{(x-x_0)\cdots(x-x_{i-1})(x-x_{i+1})\cdots(x-x_n)}{(x_i-x_0)\cdots(x_i-x_{i-1})(x_i-x_{i+1})\cdots(x_i-x_n)}.$$
+拉格朗日插值公式$P_n(x)=\sum_{i=0}^{n}y_iL_i(x)$.
+\begin{Exmpx}[平方和数列的拉格朗日公式求法]
+对于平方和数列 0 1 5 14 $\cdots$ 
 
-\subsection{牛顿插值法}
+拉格朗日基函数为
+$L_0(n)=\frac{(n-1)(n-2)(n-3)}{(0-1)(0-2)(0-3)}=\frac{(n-1)(n-2)(n-3)}{-6}$,
+$L_1(n)=\frac{(n-0)(n-2)(n-3)}{(1-0)(1-2)(1-3)}=\frac{n(n-2)(n-3)}{6}$,
+$L_2(n)=\frac{(n-0)(n-1)(n-3)}{(2-0)(2-1)(2-3)}=\frac{n(n-1)(n-3)}{-2}$,
+$L_3(n)=\frac{(n-0)(n-1)(n-2)}{(3-0)(3-1)(3-2)}=\frac{n(n-1)(n-2)}{6}$.
+
+$F(n)=\sum_{i=0}^{3}y_iL_i(n)=0\frac{(n-1)(n-2)(n-3)}{-6}+1\frac{n(n-2)(n-3)}{6}+5\frac{n(n-1)(n-3)}{-2}+14\frac{n(n-1)(n-2)}{6}$.
+化简后得到
+$F(n)=\frac{n(n+1)(2n+1)}{6}
+$.
+\end{Exmpx}
+\subsubsection{牛顿插值公式求解多项式通项公式}
 取另一组基$1,n,n(n-1),n(n-1)(n-2),\cdots,n(n-1)\cdots(n-k+1)$,则$F(n)$可以唯一表示成：
 \begin{equation}
 \label{eq:pn_1_n_n_1}
@@ -91,9 +183,18 @@ $n=1$时，$F(1)=b_0+b_11$，因$b_0$已求出，$b_1=F(1)-b_0$;
 \right.
 \end{equation}
 可以解得$b_0=0,b_1=1,b_2=\frac{3}{2},b_3=\frac{1}{3},$,也就是说
-$F(n)=b_01+b_1n+b_2n(n-1)+b_3n(n-1)(n-2)=n+\frac{3}{2}n(n-1)+\frac{1}{3}n(n-1)(n-2)=\frac{n(n+1)(2n+1)}{6}$
+$F(n)=b_01+b_1n+b_2n(n-1)+b_3n(n-1)(n-2)=n+\frac{3}{2}n(n-1)+\frac{1}{3}n(n-1)(n-2)=\frac{n(n+1)(2n+1)}{6}$，这种系数的求法和用差商求系数是一致。
 \end{Exmpx}
-\subsection{拉格朗日插值法}
+
+\subsection{整数幂的和}
+在现实中我们需要求$F(n)=\sum_{i=0}^{n}i^k$类似的幂次方的和，当然我们会记得一些通项公式如
+$$\sum_{i=0}^{n}i=\frac{n(n+1)}{2},\sum_{i=0}^{n}i^2=\frac{n(n+1)(2n+1)}{6}$$等，实际上，从递推公式的角度来说,我们可以写成：
+$$F(n)=\sum_{i=0}^{n}i^k=F(n-1)+n^k.$$
+这个递推公式的特征值$\lambda=1$，并且这个递归方程是非奇次的，且后面已经有$n^k$了，所以结合这两点$F(n)$的通项应该是$k+1$次多项式，
+$$F(n)=a_0+a_1+\cdots+a_{k+1}n^{k+1}.$$
+这个多项式的系数可以用前面所说的三种方法求解,建议采用牛顿法。
+\section{高斯消元法}
+\section{高斯列主元消去法}
 
 \newpage
 
