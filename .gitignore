@@ -11,3 +11,5 @@
 *.exe
 ctextemp*.*
 /acm.pdf
+*.600pk
+*.fuse_hidden0000005900000002
