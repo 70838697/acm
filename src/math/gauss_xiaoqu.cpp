@@ -5,7 +5,9 @@ void swap(double *a,double *b,int n)
     double c;
     while(n--)
     {
-        c=*a;*a++=*b;*b++=c;
+        c=*a;
+        *a++=*b;
+        *b++=c;
     }
 }
 //solve Ax=b, the solution will be stored in b[],det=detA
@@ -24,7 +26,7 @@ double xiaoqu(double *A,double *b,int n)
                      max=j;
             }
         }
-		//dmax=0,can not solve
+        //dmax=0,can not solve
         if(!dmax)return 0;
         if(max!=i)//swap row
         {

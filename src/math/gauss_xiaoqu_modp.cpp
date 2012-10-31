@@ -6,7 +6,9 @@ void swap(T *a,double *b,T n)
     T c;
     while(n--)
     {
-        c=*a;*a++=*b;*b++=c;
+        c=*a;
+        *a++=*b;
+        *b++=c;
     }
 }
 //solve Ax=b mod P, the solution will be stored in b[],det=detA
@@ -17,9 +19,9 @@ T xiaoqu(T *A,T *b,int n)
     for( i=0; i<n-1; i++)
     {
         int max=i;
-		//find a non-zero row
-		while(!A[max*n+i] && max<n)max++;
-		//can not solve
+        //find a non-zero row
+        while(!A[max*n+i] && max<n)max++;
+        //can not solve
         if(max==n)return 0;
         if(max!=i)//swap row
         {
@@ -45,7 +47,7 @@ T xiaoqu(T *A,T *b,int n)
         for(int k=i+1; k<n; k++)
             ab=(ab+a[i][k]*b[k])%P;
         b[i]=((b[i]-ab)*inv(a[i*n+i],P))%P;
-		if(b[i]<0)b[i]+=P;
+        if(b[i]<0)b[i]+=P;
     }
     return 1;
 }
