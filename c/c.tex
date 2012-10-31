@@ -1,0 +1,62 @@
+
+%----------------------------------------------------------------------------------------
+
+\chapter{C}
+\section{数据类型}
+\begin{landscape}
+\subsection{数据类型大小}
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+ type & char & unsigned char  & short & unsigned short & int & unsigned int & long long/\_\_int64 & unsigned long long/ unsigned \_\_int64 &float &double \\
+  \hline
+ sizeof & 1 & 1  & 2 & 2 & 4 & 4 & 8 & 8& 4 & 8  \\
+  \hline
+ scanf & \%c & \%c  & \%n & \%un & \%d & \%ud & \%lld & \%lld & \%f & \%lf \\
+  \hline
+ printf & \%c & \%c  & \%n & \%un & \%d & \%ud & \%lld & \%lld & \%f & \%lf \\
+  \hline
+ min & -128 & 0  & -32768 & 0  & -2147483648 & 0 & -9223372036854775808 & 0 &  &  \\
+  \hline
+ max & 127 & 255  & 32767 & 65535  &2147483647 & 4294967295 & 9223372036854775807 & 18446744073709551611 &  &  \\
+  \hline
+\end{tabular}
+\end{landscape}
+
+\subsection{一些常数}
+\begin{tabular}{|c|c|}
+  \hline
+1K&1024=$2^{10}$\\  \hline
+1M&1024*1024=1048576=$2^{20}$\\  \hline
+1G&1024*1024*1024=1073741824=$2^{30}$\\  \hline
+1T&1024*1024*1024*1024=1099511627776=$2^{40}$\\  \hline
+0xFF&(unsigned char)-1=255=$2^8$-1\\  \hline
+0xFFFFFFFF&(unsigned)-1=2147483647=$2^{32}-1$\\  \hline
+$\pi$&acos(-1)\\  \hline
+E&exp(1)\\  \hline
+\end{tabular}
+
+\section{二进制运算}
+\subsection{例子}
+8\begin{Exmpx}
+给定一个无符号字符c,请完成写一个函数 int count(unsigned char c)返回c中为1的bit数。
+\end{Exmpx}
+\subsubsection{新手版}
+\lstinputlisting[label=Count V1.0]{c/src/countv1.cpp}
+\subsubsection{位运算版}
+\lstinputlisting[label=Count V2.0]{c/src/countv2.cpp}
+\subsubsection{高级位运算版}
+\lstinputlisting[label=Count V3.0]{c/src/countv3.cpp}
+\subsubsection{switch版}
+\lstinputlisting[label=Count V4.0]{c/src/countv4.cpp}
+\subsubsection{二分版}
+\lstinputlisting[label=Count V5.0]{c/src/countv5.cpp}
+\subsubsection{高级位运算版}
+\lstinputlisting[label=Count V6.0]{c/src/countv6.cpp}
+\subsubsection{库函数版}
+\lstinputlisting[label=Count V7.0]{c/src/countv7.cpp}
+\subsubsection{思考}
+如何统计一个无符号整数i中为1的bit数?
+\newpage
+%-----------------------------------------------------------------------------------------
