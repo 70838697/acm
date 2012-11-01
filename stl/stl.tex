@@ -52,12 +52,101 @@ template <class RandomAccessIterator, class Compare>
 
 \section{STL函数}
 \section{STL算法}
+\subsection{查找}
+\subsubsection{有序查找}
+\begin{lstlisting}
+template <class ForwardIterator, class T>
+  ForwardIterator lower_bound ( ForwardIterator first, ForwardIterator last, const T& value )
+{
+  ForwardIterator it;
+  iterator_traits<ForwardIterator>::difference_type count, step;
+  count = distance(first,last);
+  while (count>0)
+  {
+    it = first; step=count/2; advance (it,step);
+    if (*it<value)                   // or: if (comp(*it,value)), for the comp version
+      { first=++it; count-=step+1;  }
+    else count=step;
+  }
+  return first;
+}
+\end{lstlisting}
+lower\_bound只需前向迭代器即可（如果是随机访问迭代器则更有效率）,要求[first,last)已经排序,寻找大于等于value的第一个元素的位置,也就是第一个可以插入value 的位置,这个函数对vector，map，set均有效。
+\begin{lstlisting}
+template <class ForwardIterator, class T>
+  ForwardIterator upper_bound ( ForwardIterator first, ForwardIterator last, const T& value )
+{
+  ForwardIterator it;
+  iterator_traits<ForwardIterator>::difference_type count, step;
+  count = distance(first,last);
+  while (count>0)
+  {
+    it = first; step=count/2; advance (it,step);
+    if (!(value<*it))                 // or: if (!comp(value,*it)), for the comp version
+      { first=++it; count-=step+1;  }
+    else count=step;
+  }
+  return first;
+}
+\end{lstlisting}
+upper\_bound只需前向迭代器即可（如果是随机访问迭代器则更有效率）,要求[first,last)已经排序,寻找大于value的第一个元素的位置,也就是最后一个可以插入value的位置。这个函数对vector，map，set均有效。
+设要寻找的值的范围为[a b],
+[lower\_bound(first,last,a),upper\_bound(first,last,b))这个半开区间就是[first,last)满足a<=x<=b的所有元素。
+\begin{lstlisting}
+template <class ForwardIterator, class T>
+  pair<ForwardIterator,ForwardIterator>
+    equal_range ( ForwardIterator first, ForwardIterator last, const T& value )
+{
+  ForwardIterator it = lower_bound (first,last,value);
+  return make_pair ( it, upper_bound(it,last,value) );
+}
+\end{lstlisting}
+[lower\_bound(first,last,a),upper\_bound(first,last,a))这个半开区间就是[first,last)满足x=a的所有元素。
+\begin{lstlisting}
+template <class ForwardIterator, class T>
+  bool binary_search ( ForwardIterator first, ForwardIterator last, const T& value )
+{
+  first = lower_bound(first,last,value);
+  return (first!=last && !(value<*first));
+}
+\end{lstlisting}
+binary\_search只是返回是否有这个元素,要求[first,last)已经排序。
 
-\section{二进制运算}
-\subsection{例子}
-\begin{Exmpx}
-给定
-\end{Exmpx}
+\subsubsection{无序查找}
+\begin{lstlisting}
+template<class InputIterator, class T>
+  InputIterator find ( InputIterator first, InputIterator last, const T& value )
+  {
+    for ( ;first!=last; first++) if ( *first==value ) break;
+    return first;
+  }
+\end{lstlisting}
+find是逐个查找，因此不要求[first,last)已经排序。
+
+\begin{lstlisting}
+template<class ForwardIterator1, class ForwardIterator2>
+  ForwardIterator1 search ( ForwardIterator1 first1, ForwardIterator1 last1,
+                            ForwardIterator2 first2, ForwardIterator2 last2,BinaryPredicate pred)
+{
+  if (first2==last2) return first1;  // specified in C++11
+
+  while (first1!=last1)
+  {
+    ForwardIterator1 it1 = first1;
+    ForwardIterator2 it2 = first2;
+    while (*it1==*it2) {    // or: while (pred(*it1,*it2)) for the pred version
+        ++it1; ++it2;
+        if (it2==last2) return first1;
+        if (it1==last1) return last1;
+    }
+    ++first1;
+  }
+  return last1;
+}
+\end{lstlisting}
+search是查找[first1,last1)第一次出现于[first2,last2)的位置。find\_end函数正好是这个函数的查找最后一个的版本。
+\subsection{查找的例子}
+\lstinputlisting[label=heap sample]{stl/src/bound.cpp}
 
 \newpage
 %-----------------------------------------------------------------------------------------
