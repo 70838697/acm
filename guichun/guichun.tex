@@ -1,0 +1,160 @@
+
+%----------------------------------------------------------------------------------------
+
+\chapter{贵淳的烦恼}
+贵淳是一个聪明好学的好学生，他经常有一些很有意思的问题。Let's take a look.
+\section{一般性问题}
+\subsection{负数的右移位}
+我知道你上个题TLE的原因了，
+负数右移还是负数，
+你用int型导致溢出了一个负数，负数传进去是int64还是负数 于是在移位的时候始终不行。
+\subsection{cin}
+\begin{lstlisting}
+char c;
+while(cin>>c)
+{
+}
+..
+while(cin)
+{
+    cin>>c;
+}
+\end{lstlisting}
+这两个有啥区别？
+\subsection{scanf还是getchar}
+下面两种方式读入看起来没啥不同，都是读入“F F F”这样的行，为什么方式一部可以？
+\begin{lstlisting}
+for(int i=0;i<n;i++)
+{
+    getchar();
+    for(int j=0;j<m-1;j++)
+    {
+        scanf("%c ",&Map[i][j]);
+        if(Map[i][j]=='F'){
+            height[j]++;
+        }
+        else
+            height[j]=0;
+
+    }
+    scanf("%c ",&Map[i][m-1]);
+    if(Map[i][m-1]=='F'){
+        height[m-1]++;
+    }
+    else
+        height[m-1]=0;    
+    DP(height,m);
+}
+\end{lstlisting}
+\begin{lstlisting}
+char str[2];
+for(int i=0;i<n;i++)
+{
+    for(int j=0;j<m;j++)
+    {
+        scanf("%s",str);
+        if(str[0]=='F'){
+            height[j]++;
+        }
+        else
+            height[j]=0;
+        
+    }
+    DP(height,m);
+}
+\end{lstlisting}
+答案：题目的数据有时候会不规范，尽量少用getchar()去掉回车等，应多用靠谱的scanf("\%s")碰到空白就会结束。
+\subsection{初始化问题}
+\begin{lstlisting}
+__int64 dp[MAX][MAX];
+\end{lstlisting}
+必须放在main函数外面才行？
+\lstinputlisting[label=chushihua]{guichun/chushihua.cpp}
+答案：全局变量才会被初始化，全局变量开在堆上，其数组大小可以开很大；局部变量不会初始化，开在栈上，栈一般只有8M。
+\subsection{memset问题}
+\begin{lstlisting}
+void function(char c[10005]){
+    memset(c, '0', sizeof(c));
+    ...
+}
+\end{lstlisting}
+为什么只初始化了4个字节？
+\subsection{括号问题}
+\begin{lstlisting}
+*(index)--;
+*index--;
+\end{lstlisting}
+
+\begin{lstlisting}
+if((time - t)%2 != (abs(ex-x) + abs(ey-y))%2)
+if((time - t)&1 != (abs(ex-x) + abs(ey-y))&1)
+\end{lstlisting}
+这两句话为啥不一样
+
+\subsection{memcpy问题}
+hdu 1159为什么数组开100005会超时，而1005就AC？
+\lstinputlisting[label=hdu 1159 tle]{guichun/hdu1159_tle.cpp}
+答案：没必要的数组不要复制和初始化，如下修改可过。
+\begin{lstlisting}
+memcpy(dp[0], dp[1], len2*sizeof(int));
+\end{lstlisting}
+注意这里还有memset初始化的问题，同样做了一些无用功。
+\section{优化问题}
+\subsection{g++和ms}
+平哥，，顺便问下一个小问题，，，，，g++平台跟ms平台效率上有那么大的区别么，怎么我写了同一份代码，结果g++ TLE了，ms就a了
+\subsection{vector的reserve}
+为啥出错了？
+\begin{lstlisting}
+#include<vector>
+#include<iostream>
+using namespace std;
+int main(void)
+{
+    vector<int>vec;
+    vec.reserve(10);
+    vec.push_back(1);
+    vec[2]=1;
+    cout<<vec.capacity()<<endl;
+}
+\end{lstlisting}
+\subsection{一般优化问题}
+我觉得这个代码不太优化啊,你认为存在什么问题？
+\begin{lstlisting}
+for(int j = 1; j + k <= trooper; j++)
+{
+    if(dp[son][j]) dp[index][k + j] = max(dp[index][k + j], dp[index][k] + dp[son][j]);
+}
+\end{lstlisting}
+上面这个我明白不太好，那这个是不是也不好?
+\begin{lstlisting}
+for(int i = 0; i < strlen(str); i++)
+\end{lstlisting}
+但是为啥stl中很多人这么用呢？
+\begin{lstlisting}
+for(int i = 0; i < vec.size(); i++)
+\end{lstlisting}
+
+\section{数据结构问题}
+\subsection{并查集Union函数为什么加上rank}
+问：并查集的这个Union函数为什么最好要用上rank?好像就算不用它也不会影响结果呀。。。据说它可以加快速度，可是当我在写找祖先函数的时候，就路径压缩了，，感觉没什么必要再用上rank了。
+
+\section{Set怎么了}
+在做hdu 2639时，贵淳发现了用Set排序超时了，而自己用数组模拟则没有问题，Set究竟怎么了？
+\subsection{Set TLE了}
+采用set最主要的目的是为了去掉重复元素。
+\lstinputlisting[label=hdu 2639 tle]{guichun/hdu2639_tle.cpp}
+\subsection{Array可以AC}
+\lstinputlisting[label=hdu 2639 array]{guichun/hdu2639_ac.cpp}
+\subsection{分析}
+将
+mySet.insert(a);
+mySet.insert(b);
+注释掉，发现程序不TLE了，说明复杂度出在这里。数组的版本时间是93ms，加上mySet.clear的时间为153ms.
+数组的版本排序的复杂度就是(vol-bone.vol)*k，就两条语句。
+Set版本的计算复杂度为(vol-bone.vol)*k*mySet.insert；
+Set的插入复杂度为logN，N为set中当前元素个数;因此在这里计算复杂度大概是
+(vol-bone.vol)*k clogk,k在题目中大概是30.c是常数，这个常数比较大，可能不止10条语句，因为set在实现的时候insert里面有比如说10 行代码，这10 行代码就是常数，而且set里面用红黑树实现的话，插入元素时候树会做logk次调整，每次调整有个时间常数.
+更倒霉的是，这个题目中set的最大时间复杂度达到了，原因是，插入元素是有序，意味着始终往红黑树的一个子树上插入节点，这会导致红黑树失去平衡，因此每次插入都导致红黑树调整以平衡子树。所以clogk可能达到原来复杂度的20~30倍，因此超时也就可以想象了。
+
+\newpage
+%-----------------------------------------------------------------------------------------

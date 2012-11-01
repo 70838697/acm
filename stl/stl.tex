@@ -1,8 +1,57 @@
 
 %----------------------------------------------------------------------------------------
 
-\chapter{C}
-\section{数据类型}
+\chapter{STL}
+\section{STL数据结构}
+\subsection{集合}
+\subsection{堆}
+堆通常是一个可以被看做一棵树的数组对象。 堆总是满足下列性质：\\
+    堆中某个节点的值总是大于或小于其父节点的值；\\
+    堆总是一颗完全树。\\
+将根节点最大的堆叫做最大堆或大根堆，根节点最小的堆叫做最小堆或小根堆。
+
+大根堆满足的性质是a[i]>=a[2i+1],a[i]>=a[2i+2];
+堆的每一次操作时间复杂度最大是NlogN，N是当前堆中的元素数。\\
+堆适合动态保持部分有序的情形，比如优先队列，但是它不适合于排序，因为其时间复杂度虽然是NlogN，但其常数特别大。尤其是每次在大根堆中push较大元素时，其复杂度就达到了；push较小元素则代价很小。
+\begin{lstlisting}
+#include<algorithm>
+\end{lstlisting}
+
+STL里面的堆操作一般用到的只有4个。
+\begin{lstlisting}
+template <class RandomAccessIterator, class Compare>
+  void make_heap ( RandomAccessIterator first, RandomAccessIterator last,
+                   Compare comp );
+\end{lstlisting}
+将[first,last)建成一个大根堆，建堆的复杂度NlogN,N=last-first。
+
+\begin{lstlisting}
+template <class RandomAccessIterator, class Compare>
+  void pop_heap ( RandomAccessIterator first, RandomAccessIterator last,
+                   Compare comp );
+\end{lstlisting}
+将first的元素移到(last-1);将[first,last-1)建成一个大根堆。
+
+\begin{lstlisting}
+template <class RandomAccessIterator, class Compare>
+  void push_heap ( RandomAccessIterator first, RandomAccessIterator last,
+                   Compare comp );
+\end{lstlisting}
+在[first,last-1)已经是堆的情况下，把last-1处的元素加入堆，使得[first,last)变成大根堆。
+复杂度最多 log(last-first);
+
+\begin{lstlisting}
+template <class RandomAccessIterator, class Compare>
+  void sort_heap ( RandomAccessIterator first, RandomAccessIterator last,
+                   Compare comp );
+\end{lstlisting}
+将[first,last)排序，排序后丧失堆属性。复杂度 NlogN次比较, N =(last-first).
+
+\subsection{堆的例子}
+\lstinputlisting[label=heap sample]{stl/src/heap.cpp}
+
+\section{STL函数}
+\section{STL算法}
 
 \section{二进制运算}
 \subsection{例子}

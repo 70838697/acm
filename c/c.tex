@@ -36,6 +36,17 @@
 $\pi$&acos(-1)\\  \hline
 E&exp(1)\\  \hline
 \end{tabular}
+\section{指针}
+\begin{lstlisting}
+void count(char a[100]){printf("%d",sizeof(a));}
+\end{lstlisting}
+上面输出的答案是多少？
+\begin{lstlisting}
+void count(char a[]){}
+void count(char a[100]){}
+void count(char *a){}
+\end{lstlisting}
+数组作为参数传递给函数时，这三种有区别吗？
 
 \section{二进制运算}
 \subsection{例子}
