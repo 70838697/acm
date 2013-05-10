@@ -1,0 +1,2 @@
+windows下装了ctex和gnuplot就可以了
+注意gnuplot的当前目录
