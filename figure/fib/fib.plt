@@ -23,6 +23,6 @@ Sqrt(x)=Power(x,0.5)
 GNUTERM = "wxt"
 GPFUN_Power = "Power(x,y)=x**y"
 GPFUN_Sqrt = "Sqrt(x)=Power(x,0.5)"
-plot 'Z:\doing\acm\acm\figure\fib\fib.txt' title 'Fib(n)' , (((1+Sqrt(5))*0.5)**x)/Sqrt(5) title '$(((1+\sqrt{5})*0.5)^n)/\sqrt{5}$'
+plot 'fib.txt' title 'Fib(n)' , (((1+Sqrt(5))*0.5)**x)/Sqrt(5) title '$(((1+\sqrt{5})*0.5)^n)/\sqrt{5}$'
 set output
 #    EOF
